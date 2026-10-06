@@ -1,0 +1,1832 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Interview Assistant</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    rgba(8, 15, 35, 0.86),
+                    rgba(8, 15, 35, 0.92)
+                ),
+                url("/static/images/ai-background.jpg");
+
+            background-size: cover;
+
+            background-position: center;
+
+            color: white;
+
+            padding: 30px;
+
+        }
+
+
+        /* ================= BACK BUTTON ================= */
+
+        .back-button {
+
+            position: fixed;
+
+            top: 20px;
+
+            right: 25px;
+
+            padding: 12px 20px;
+
+            background: rgba(255,255,255,0.12);
+
+            border: 1px solid rgba(255,255,255,0.25);
+
+            border-radius: 12px;
+
+            color: white;
+
+            text-decoration: none;
+
+            backdrop-filter: blur(10px);
+
+            z-index: 100;
+
+        }
+
+
+        /* ================= MAIN CONTAINER ================= */
+
+        .container {
+
+            max-width: 1100px;
+
+            margin: 70px auto;
+
+        }
+
+
+        /* ================= HEADER ================= */
+
+        .header {
+
+            text-align: center;
+
+            margin-bottom: 40px;
+
+        }
+
+
+        .header h1 {
+
+            font-size: 42px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .header p {
+
+            font-size: 17px;
+
+            color: #cdd5e8;
+
+        }
+
+
+        /* ================= OPTION CARDS ================= */
+
+        .options {
+
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 30px;
+
+        }
+
+
+        .option-card {
+
+            background: rgba(255,255,255,0.10);
+
+            border: 1px solid rgba(255,255,255,0.20);
+
+            border-radius: 22px;
+
+            padding: 35px;
+
+            backdrop-filter: blur(15px);
+
+            box-shadow:
+                0 15px 40px rgba(0,0,0,0.30);
+
+            transition: 0.3s;
+
+        }
+
+
+        .option-card:hover {
+
+            transform: translateY(-7px);
+
+            background: rgba(255,255,255,0.14);
+
+        }
+
+
+        .icon {
+
+            font-size: 55px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .option-card h2 {
+
+            font-size: 27px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .option-card p {
+
+            color: #d4daea;
+
+            line-height: 1.6;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .feature-list {
+
+            list-style: none;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .feature-list li {
+
+            margin: 10px 0;
+
+            color: #e6e9f3;
+
+        }
+
+
+        .feature-list li::before {
+
+            content: "✓";
+
+            margin-right: 10px;
+
+            color: #8ee6a8;
+
+            font-weight: bold;
+
+        }
+
+
+        .option-button {
+
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            color: white;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+
+        .prepare-button {
+
+            background: #667eea;
+
+        }
+
+
+        .test-button {
+
+            background: #38a169;
+
+        }
+
+
+        /* ================= SECTIONS ================= */
+
+        .section {
+
+            display: none;
+
+            margin-top: 30px;
+
+            background: rgba(255,255,255,0.10);
+
+            border: 1px solid rgba(255,255,255,0.20);
+
+            border-radius: 22px;
+
+            padding: 30px;
+
+            backdrop-filter: blur(15px);
+
+        }
+
+
+        .section h2 {
+
+            font-size: 28px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .section-description {
+
+            color: #cdd5e8;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        /* ================= FORM ================= */
+
+        label {
+
+            display: block;
+
+            margin-top: 18px;
+
+            margin-bottom: 8px;
+
+            font-weight: bold;
+
+        }
+
+
+        input,
+        select {
+
+            width: 100%;
+
+            padding: 14px;
+
+            border-radius: 10px;
+
+            border: none;
+
+            outline: none;
+
+            font-size: 16px;
+
+        }
+
+
+        .action-button {
+
+            width: 100%;
+
+            margin-top: 25px;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            color: white;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+
+        .blue-button {
+
+            background: #667eea;
+
+        }
+
+
+        .green-button {
+
+            background: #38a169;
+
+        }
+
+
+        .back-option {
+
+            margin-top: 15px;
+
+            background: rgba(255,255,255,0.12);
+
+        }
+
+
+        /* ================= PREPARATION ================= */
+
+        .prep-content {
+
+            margin-top: 30px;
+
+            display: none;
+
+        }
+
+
+        .voice-box {
+
+            text-align: center;
+
+            padding: 25px;
+
+            background: rgba(0,0,0,0.20);
+
+            border-radius: 15px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .voice-button {
+
+            padding: 13px 22px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: #805ad5;
+
+            color: white;
+
+            font-size: 16px;
+
+            cursor: pointer;
+
+        }
+
+
+        .notes {
+
+            background: rgba(255,255,255,0.08);
+
+            padding: 25px;
+
+            border-radius: 15px;
+
+            line-height: 1.7;
+
+        }
+
+
+        .notes h3 {
+
+            margin-bottom: 15px;
+
+            color: #aebcff;
+
+        }
+
+
+        .notes ul {
+
+            margin-left: 20px;
+
+        }
+
+
+        .notes li {
+
+            margin: 10px 0;
+
+        }
+
+
+        /* ================= TEST INTERVIEW ================= */
+
+        .test-content {
+
+            display: none;
+
+            margin-top: 30px;
+
+        }
+
+
+        .question-box {
+
+            background: rgba(255,255,255,0.08);
+
+            padding: 25px;
+
+            border-radius: 15px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .question-box h3 {
+
+            color: #aebcff;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        #questionText {
+
+            font-size: 21px;
+
+            line-height: 1.6;
+
+        }
+
+
+        .answer-box {
+
+            background: rgba(255,255,255,0.08);
+
+            padding: 25px;
+
+            border-radius: 15px;
+
+            min-height: 130px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .answer-box h3 {
+
+            color: #8ee6a8;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        #answerText {
+
+            color: #e5e8f0;
+
+            line-height: 1.6;
+
+        }
+
+
+        .controls {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .control-button {
+
+            padding: 13px 20px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+
+        .speak {
+
+            background: #805ad5;
+
+        }
+
+
+        .mic {
+
+            background: #e53e3e;
+
+        }
+
+
+        .stop {
+
+            background: #718096;
+
+        }
+
+
+        .next {
+
+            background: #38a169;
+
+        }
+
+
+        .status {
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #ffcccb;
+
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width: 750px) {
+
+            .options {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .header h1 {
+
+                font-size: 30px;
+
+            }
+
+            body {
+
+                padding: 15px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= BACK BUTTON ================= -->
+
+<a href="/" class="back-button">
+
+    ← Back to AI Tool Hub
+
+</a>
+
+
+
+<div class="container">
+
+
+    <!-- ================= HEADER ================= -->
+
+    <div class="header">
+
+        <h1>🎤 AI Interview Assistant</h1>
+
+        <p>
+
+            Prepare for interviews and test your interview skills
+
+            using AI-powered voice interaction.
+
+        </p>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         TWO MAIN OPTIONS
+    ================================================== -->
+
+    <div class="options" id="mainOptions">
+
+
+        <!-- ================= PREPARATION ================= -->
+
+        <div class="option-card">
+
+            <div class="icon">
+
+                🎓
+
+            </div>
+
+
+            <h2>
+
+                Interview Preparation
+
+            </h2>
+
+
+            <p>
+
+                Learn interview concepts, questions and
+                answering techniques with AI explanations
+                and voice guidance.
+
+            </p>
+
+
+            <ul class="feature-list">
+
+                <li>Multiple language support</li>
+
+                <li>Voice explanations</li>
+
+                <li>Written interview notes</li>
+
+                <li>HR preparation</li>
+
+                <li>Technical preparation</li>
+
+                <li>Interview tips</li>
+
+            </ul>
+
+
+            <button
+                class="option-button prepare-button"
+                onclick="showPreparation()"
+            >
+
+                🎓 Start Preparation
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ================= TEST INTERVIEW ================= -->
+
+        <div class="option-card">
+
+            <div class="icon">
+
+                🎤
+
+            </div>
+
+
+            <h2>
+
+                Test Interview
+
+            </h2>
+
+
+            <p>
+
+                Take a real-time mock interview where
+                the AI interviewer asks questions and
+                evaluates your answers.
+
+            </p>
+
+
+            <ul class="feature-list">
+
+                <li>English interview</li>
+
+                <li>Voice questions</li>
+
+                <li>Microphone answers</li>
+
+                <li>Technical / HR / Mixed</li>
+
+                <li>Answer analysis</li>
+
+                <li>Final interview report</li>
+
+            </ul>
+
+
+            <button
+                class="option-button test-button"
+                onclick="showTestInterview()"
+            >
+
+                🎤 Start Test Interview
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         PREPARATION SECTION
+    ================================================== -->
+
+    <div class="section" id="preparationSection">
+
+
+        <h2>
+
+            🎓 Interview Preparation
+
+        </h2>
+
+
+        <p class="section-description">
+
+            Select your language. The AI will explain
+            interview topics using voice and written notes
+            in the selected language.
+
+        </p>
+
+
+        <label>
+
+            Select Language
+
+        </label>
+
+
+        <select id="prepLanguage">
+
+            <option value="en-US">
+                English
+            </option>
+
+            <option value="hi-IN">
+                Hindi
+            </option>
+
+            <option value="te-IN">
+                Telugu
+            </option>
+
+            <option value="ta-IN">
+                Tamil
+            </option>
+
+            <option value="kn-IN">
+                Kannada
+            </option>
+
+            <option value="ml-IN">
+                Malayalam
+            </option>
+
+            <option value="bn-IN">
+                Bengali
+            </option>
+
+            <option value="mr-IN">
+                Marathi
+            </option>
+
+            <option value="gu-IN">
+                Gujarati
+            </option>
+
+            <option value="pa-IN">
+                Punjabi
+            </option>
+
+        </select>
+
+
+        <label>
+
+            Select Preparation Topic
+
+        </label>
+
+
+        <select id="prepTopic">
+
+            <option value="hr">
+
+                HR Interview Preparation
+
+            </option>
+
+            <option value="technical">
+
+                Technical Interview Preparation
+
+            </option>
+
+            <option value="java">
+
+                Java Interview Preparation
+
+            </option>
+
+            <option value="python">
+
+                Python Interview Preparation
+
+            </option>
+
+            <option value="aiml">
+
+                AI / ML Interview Preparation
+
+            </option>
+
+            <option value="communication">
+
+                Communication & Interview Skills
+
+            </option>
+
+        </select>
+
+
+        <button
+            class="action-button blue-button"
+            onclick="startPreparation()"
+        >
+
+            📚 Start Preparation
+
+        </button>
+
+
+
+        <!-- ================= PREPARATION CONTENT ================= -->
+
+        <div
+            class="prep-content"
+            id="prepContent"
+        >
+
+
+            <div class="voice-box">
+
+                <h3>
+
+                    🔊 AI Voice Explanation
+
+                </h3>
+
+                <br>
+
+                <button
+                    class="voice-button"
+                    onclick="speakPreparation()"
+                >
+
+                    🔊 Listen to Explanation
+
+                </button>
+
+            </div>
+
+
+
+            <div class="notes">
+
+                <h3>
+
+                    📝 Interview Notes
+
+                </h3>
+
+
+                <div id="prepNotes">
+
+                    Select a topic and click
+                    "Start Preparation".
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <button
+            class="action-button back-option"
+            onclick="goBack()"
+        >
+
+            ← Back to Options
+
+        </button>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         TEST INTERVIEW SECTION
+    ================================================== -->
+
+    <div class="section" id="testSection">
+
+
+        <h2>
+
+            🎤 Test Interview
+
+        </h2>
+
+
+        <p class="section-description">
+
+            This is an English-only mock interview.
+            The AI will ask questions and analyze
+            your answers.
+
+        </p>
+
+
+        <label>
+
+            Job Role
+
+        </label>
+
+
+        <input
+            type="text"
+            id="jobRole"
+            placeholder="Example: Java Developer"
+        >
+
+
+        <label>
+
+            Interview Type
+
+        </label>
+
+
+        <select id="interviewType">
+
+            <option value="Technical">
+
+                Technical Interview
+
+            </option>
+
+            <option value="HR">
+
+                HR Interview
+
+            </option>
+
+            <option value="Mixed">
+
+                Mixed Interview
+
+            </option>
+
+        </select>
+
+
+        <label>
+
+            Difficulty
+
+        </label>
+
+
+        <select id="difficulty">
+
+            <option value="Beginner">
+
+                Beginner
+
+            </option>
+
+            <option value="Intermediate">
+
+                Intermediate
+
+            </option>
+
+            <option value="Advanced">
+
+                Advanced
+
+            </option>
+
+        </select>
+
+
+        <button
+            class="action-button green-button"
+            onclick="startTestInterview()"
+        >
+
+            🎤 Start English Interview
+
+        </button>
+
+
+
+        <!-- ================= TEST CONTENT ================= -->
+
+        <div
+            class="test-content"
+            id="testContent"
+        >
+
+
+            <div class="question-box">
+
+                <h3>
+
+                    🤖 AI Interviewer
+
+                </h3>
+
+
+                <p id="questionText">
+
+                    Welcome to your interview.
+
+                </p>
+
+            </div>
+
+
+
+            <div class="answer-box">
+
+                <h3>
+
+                    🎙️ Your Answer
+
+                </h3>
+
+
+                <p id="answerText">
+
+                    Your spoken answer will appear here.
+
+                </p>
+
+            </div>
+
+
+
+            <div class="controls">
+
+
+                <button
+                    class="control-button speak"
+                    onclick="speakQuestion()"
+                >
+
+                    🔊 Speak Question
+
+                </button>
+
+
+                <button
+                    class="control-button mic"
+                    onclick="startListening()"
+                >
+
+                    🎙️ Start Speaking
+
+                </button>
+
+
+                <button
+                    class="control-button stop"
+                    onclick="stopListening()"
+                >
+
+                    ⏹ Stop
+
+                </button>
+
+
+                <button
+                    class="control-button next"
+                    onclick="nextQuestion()"
+                >
+
+                    ➡ Next Question
+
+                </button>
+
+
+            </div>
+
+
+            <div
+                class="status"
+                id="micStatus"
+            >
+
+            </div>
+
+
+        </div>
+
+
+        <button
+            class="action-button back-option"
+            onclick="goBack()"
+        >
+
+            ← Back to Options
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+/* ==================================================
+   VARIABLES
+================================================== */
+
+let recognition;
+
+let currentQuestion = 1;
+
+
+
+/* ==================================================
+   PREPARATION CONTENT
+================================================== */
+
+const preparationData = {
+
+    hr: {
+
+        title: "HR Interview Preparation",
+
+        notes: `
+            <p><strong>What is an HR Interview?</strong></p>
+
+            <p>
+            HR interviews evaluate your communication,
+            personality, motivation and suitability for
+            the organization.
+            </p>
+
+            <br>
+
+            <p><strong>Important Questions:</strong></p>
+
+            <ul>
+                <li>Tell me about yourself.</li>
+                <li>What are your strengths?</li>
+                <li>What are your weaknesses?</li>
+                <li>Why should we hire you?</li>
+                <li>Why do you want to join our company?</li>
+                <li>Where do you see yourself in five years?</li>
+            </ul>
+
+            <br>
+
+            <p><strong>Tip:</strong></p>
+
+            <p>
+            Keep your answers clear, positive and
+            relevant to the job.
+            </p>
+        `
+
+    },
+
+
+    technical: {
+
+        title: "Technical Interview Preparation",
+
+        notes: `
+            <p><strong>Technical Interview Preparation</strong></p>
+
+            <p>
+            Technical interviews evaluate your programming,
+            problem-solving and computer science knowledge.
+            </p>
+
+            <br>
+
+            <p><strong>Important Areas:</strong></p>
+
+            <ul>
+                <li>Programming fundamentals</li>
+                <li>Data Structures</li>
+                <li>Algorithms</li>
+                <li>Object-Oriented Programming</li>
+                <li>Database and SQL</li>
+                <li>Operating Systems</li>
+                <li>Computer Networks</li>
+            </ul>
+
+            <br>
+
+            <p><strong>Tip:</strong></p>
+
+            <p>
+            Explain your approach before writing code.
+            </p>
+        `
+
+    },
+
+
+    java: {
+
+        title: "Java Interview Preparation",
+
+        notes: `
+            <p><strong>Important Java Topics</strong></p>
+
+            <ul>
+                <li>Variables and data types</li>
+                <li>Operators</li>
+                <li>Type casting</li>
+                <li>Strings</li>
+                <li>Arrays</li>
+                <li>Classes and Objects</li>
+                <li>Inheritance</li>
+                <li>Polymorphism</li>
+                <li>Encapsulation</li>
+                <li>Abstraction</li>
+                <li>Exception Handling</li>
+                <li>Collections</li>
+                <li>JDBC</li>
+                <li>Spring Boot</li>
+            </ul>
+
+            <br>
+
+            <p>
+            Practice explaining concepts using simple
+            examples and write small programs regularly.
+            </p>
+        `
+
+    },
+
+
+    python: {
+
+        title: "Python Interview Preparation",
+
+        notes: `
+            <p><strong>Important Python Topics</strong></p>
+
+            <ul>
+                <li>Variables and data types</li>
+                <li>Lists and tuples</li>
+                <li>Dictionaries and sets</li>
+                <li>Functions</li>
+                <li>OOP</li>
+                <li>Exception handling</li>
+                <li>File handling</li>
+                <li>Modules and packages</li>
+                <li>Python libraries</li>
+            </ul>
+        `
+
+    },
+
+
+    aiml: {
+
+        title: "AI / ML Interview Preparation",
+
+        notes: `
+            <p><strong>Important AI / ML Topics</strong></p>
+
+            <ul>
+                <li>Machine Learning fundamentals</li>
+                <li>Supervised Learning</li>
+                <li>Unsupervised Learning</li>
+                <li>Regression</li>
+                <li>Classification</li>
+                <li>Clustering</li>
+                <li>Feature Engineering</li>
+                <li>PCA</li>
+                <li>Model Evaluation</li>
+                <li>Deep Learning basics</li>
+            </ul>
+        `
+
+    },
+
+
+    communication: {
+
+        title: "Communication & Interview Skills",
+
+        notes: `
+            <p><strong>Communication Tips</strong></p>
+
+            <ul>
+                <li>Speak clearly.</li>
+                <li>Do not rush your answers.</li>
+                <li>Maintain a logical structure.</li>
+                <li>Give examples when possible.</li>
+                <li>Avoid unnecessary information.</li>
+                <li>Listen carefully to the question.</li>
+                <li>Be honest when you do not know something.</li>
+            </ul>
+
+            <br>
+
+            <p>
+            A good answer should be clear, relevant and
+            structured.
+            </p>
+        `
+
+    }
+
+};
+
+
+
+/* ==================================================
+   TEST INTERVIEW QUESTIONS
+   TEMPORARY
+================================================== */
+
+const testQuestions = [
+
+    "Tell me about yourself.",
+
+    "Why are you interested in this job role?",
+
+    "Explain one project that you have worked on.",
+
+    "What are your strengths and weaknesses?",
+
+    "Where do you see yourself in the next five years?"
+
+];
+
+
+
+/* ==================================================
+   SHOW PREPARATION
+================================================== */
+
+function showPreparation() {
+
+    document.getElementById("mainOptions").style.display =
+        "none";
+
+    document.getElementById("preparationSection").style.display =
+        "block";
+
+    document.getElementById("testSection").style.display =
+        "none";
+
+}
+
+
+
+/* ==================================================
+   SHOW TEST INTERVIEW
+================================================== */
+
+function showTestInterview() {
+
+    document.getElementById("mainOptions").style.display =
+        "none";
+
+    document.getElementById("testSection").style.display =
+        "block";
+
+    document.getElementById("preparationSection").style.display =
+        "none";
+
+}
+
+
+
+/* ==================================================
+   START PREPARATION
+================================================== */
+
+function startPreparation() {
+
+    const topic =
+        document.getElementById("prepTopic").value;
+
+    const data =
+        preparationData[topic];
+
+    document.getElementById("prepNotes").innerHTML =
+        data.notes;
+
+    document.getElementById("prepContent").style.display =
+        "block";
+
+}
+
+
+
+/* ==================================================
+   SPEAK PREPARATION
+================================================== */
+
+function speakPreparation() {
+
+    const topic =
+        document.getElementById("prepTopic").value;
+
+    const language =
+        document.getElementById("prepLanguage").value;
+
+
+    const data =
+        preparationData[topic];
+
+
+    const tempDiv =
+        document.createElement("div");
+
+    tempDiv.innerHTML =
+        data.notes;
+
+
+    const text =
+        tempDiv.innerText;
+
+
+    if (!("speechSynthesis" in window)) {
+
+        alert(
+            "Voice synthesis is not supported in this browser."
+        );
+
+        return;
+
+    }
+
+
+    window.speechSynthesis.cancel();
+
+
+    const speech =
+        new SpeechSynthesisUtterance(text);
+
+
+    speech.lang =
+        language;
+
+    speech.rate =
+        0.9;
+
+    speech.pitch =
+        1;
+
+
+    window.speechSynthesis.speak(speech);
+
+}
+
+
+
+/* ==================================================
+   START TEST INTERVIEW
+================================================== */
+
+function startTestInterview() {
+
+    const role =
+        document.getElementById("jobRole").value.trim();
+
+
+    if (role === "") {
+
+        alert("Please enter your job role.");
+
+        return;
+
+    }
+
+
+    document.getElementById("testContent").style.display =
+        "block";
+
+
+    currentQuestion = 1;
+
+
+    showQuestion();
+
+}
+
+
+
+/* ==================================================
+   SHOW QUESTION
+================================================== */
+
+function showQuestion() {
+
+    const question =
+        testQuestions[currentQuestion - 1];
+
+
+    document.getElementById("questionText").innerText =
+        question;
+
+
+    document.getElementById("answerText").innerText =
+        "Your spoken answer will appear here.";
+
+
+    document.getElementById("micStatus").innerText =
+        "";
+
+}
+
+
+
+/* ==================================================
+   SPEAK QUESTION
+================================================== */
+
+function speakQuestion() {
+
+    const question =
+        document.getElementById("questionText").innerText;
+
+
+    if (!("speechSynthesis" in window)) {
+
+        alert(
+            "Speech synthesis is not supported."
+        );
+
+        return;
+
+    }
+
+
+    window.speechSynthesis.cancel();
+
+
+    const speech =
+        new SpeechSynthesisUtterance(question);
+
+
+    /* TEST INTERVIEW IS ENGLISH ONLY */
+
+    speech.lang =
+        "en-US";
+
+    speech.rate =
+        0.95;
+
+    speech.pitch =
+        1;
+
+
+    window.speechSynthesis.speak(speech);
+
+}
+
+
+
+/* ==================================================
+   START MICROPHONE
+================================================== */
+
+function startListening() {
+
+
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+
+    if (!SpeechRecognition) {
+
+        alert(
+            "Speech recognition is not supported. Please use Google Chrome or Microsoft Edge."
+        );
+
+        return;
+
+    }
+
+
+    recognition =
+        new SpeechRecognition();
+
+
+    /* TEST INTERVIEW IS ENGLISH ONLY */
+
+    recognition.lang =
+        "en-IN";
+
+    recognition.continuous =
+        false;
+
+    recognition.interimResults =
+        false;
+
+
+    recognition.onstart =
+        function() {
+
+            document.getElementById("micStatus").innerText =
+                "🎙️ Listening... Please answer in English.";
+
+        };
+
+
+    recognition.onresult =
+        function(event) {
+
+            const transcript =
+                event.results[0][0].transcript;
+
+
+            document.getElementById("answerText").innerText =
+                transcript;
+
+
+            document.getElementById("micStatus").innerText =
+                "✅ Answer captured.";
+
+        };
+
+
+    recognition.onerror =
+        function(event) {
+
+            document.getElementById("micStatus").innerText =
+                "❌ Microphone error: " + event.error;
+
+        };
+
+
+    recognition.onend =
+        function() {
+
+            console.log(
+                "Speech recognition ended."
+            );
+
+        };
+
+
+    recognition.start();
+
+}
+
+
+
+/* ==================================================
+   STOP MICROPHONE
+================================================== */
+
+function stopListening() {
+
+    if (recognition) {
+
+        recognition.stop();
+
+        document.getElementById("micStatus").innerText =
+            "⏹ Listening stopped.";
+
+    }
+
+}
+
+
+
+/* ==================================================
+   NEXT QUESTION
+================================================== */
+
+function nextQuestion() {
+
+    if (
+        currentQuestion <
+        testQuestions.length
+    ) {
+
+        currentQuestion++;
+
+        showQuestion();
+
+        speakQuestion();
+
+    }
+
+    else {
+
+        document.getElementById("questionText").innerText =
+            "🎉 Interview Completed";
+
+        document.getElementById("answerText").innerText =
+            "Your AI answer analysis will appear here after we connect Groq.";
+
+        document.getElementById("micStatus").innerText =
+            "Final analysis will be added in the next step.";
+
+    }
+
+}
+
+
+
+/* ==================================================
+   BACK TO OPTIONS
+================================================== */
+
+function goBack() {
+
+    document.getElementById("mainOptions").style.display =
+        "grid";
+
+    document.getElementById("preparationSection").style.display =
+        "none";
+
+    document.getElementById("testSection").style.display =
+        "none";
+
+    window.speechSynthesis.cancel();
+
+}
+
+</script>
+
+
+</body>
+
+</html>

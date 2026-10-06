@@ -1,0 +1,2330 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account | AI Tool Hub</title>
+
+
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- Bootstrap Icons -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+
+    <style>
+
+        /* =========================================
+           RESET
+        ========================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+
+            width: 100%;
+
+            min-height: 100%;
+
+            margin: 0;
+
+            padding: 0;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                Helvetica,
+                sans-serif;
+        }
+
+
+        /* =========================================
+           BODY
+        ========================================= */
+
+        body {
+
+            min-height: 100vh;
+
+            position: relative;
+
+            overflow-x: hidden;
+
+            background:
+
+                radial-gradient(
+                    circle at 10% 15%,
+                    rgba(99, 102, 241, 0.30),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 90% 80%,
+                    rgba(139, 92, 246, 0.25),
+                    transparent 30%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #0f172a,
+                    #1e1b4b,
+                    #312e81
+                );
+        }
+
+
+        /* =========================================
+           BACKGROUND CIRCLES
+        ========================================= */
+
+        .background-circle {
+
+            position: fixed;
+
+            border-radius: 50%;
+
+            pointer-events: none;
+
+            z-index: 0;
+
+            filter: blur(1px);
+        }
+
+
+        .circle-one {
+
+            width: 360px;
+
+            height: 360px;
+
+            top: -160px;
+
+            left: -120px;
+
+            background:
+                rgba(99, 102, 241, 0.18);
+
+            animation:
+                floatOne 9s ease-in-out infinite;
+        }
+
+
+        .circle-two {
+
+            width: 430px;
+
+            height: 430px;
+
+            right: -170px;
+
+            bottom: -190px;
+
+            background:
+                rgba(168, 85, 247, 0.16);
+
+            animation:
+                floatTwo 11s ease-in-out infinite;
+        }
+
+
+        .circle-three {
+
+            width: 170px;
+
+            height: 170px;
+
+            right: 13%;
+
+            top: 25%;
+
+            background:
+                rgba(59, 130, 246, 0.12);
+
+            animation:
+                floatThree 8s ease-in-out infinite;
+        }
+
+
+        @keyframes floatOne {
+
+            0%,
+            100% {
+                transform:
+                    translate(0, 0);
+            }
+
+            50% {
+                transform:
+                    translate(30px, 25px);
+            }
+        }
+
+
+        @keyframes floatTwo {
+
+            0%,
+            100% {
+                transform:
+                    translate(0, 0);
+            }
+
+            50% {
+                transform:
+                    translate(-30px, -25px);
+            }
+        }
+
+
+        @keyframes floatThree {
+
+            0%,
+            100% {
+                transform:
+                    translateY(0);
+            }
+
+            50% {
+                transform:
+                    translateY(-30px);
+            }
+        }
+
+
+        /* =========================================
+           NAVBAR
+        ========================================= */
+
+        .navbar-custom {
+
+            position: relative;
+
+            z-index: 10;
+
+            padding:
+                18px 30px;
+        }
+
+
+        .brand-logo {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 22px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.3px;
+
+            transition:
+                0.3s ease;
+        }
+
+
+        .brand-logo i {
+
+            width: 38px;
+
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #8b5cf6
+                );
+
+            font-size: 18px;
+
+            box-shadow:
+                0 7px 20px
+                rgba(99, 102, 241, 0.30);
+        }
+
+
+        .brand-logo:hover {
+
+            color: white;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        /* =========================================
+           NAV BUTTONS
+        ========================================= */
+
+        .nav-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .nav-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            padding:
+                10px 17px;
+
+            border-radius: 50px;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition:
+                all 0.3s ease;
+        }
+
+
+        .nav-btn:hover {
+
+            color: #111827;
+
+            background: white;
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        .login-btn {
+
+            border:
+                1px solid
+                rgba(255,255,255,0.55);
+
+            background:
+                rgba(255,255,255,0.10);
+
+            backdrop-filter:
+                blur(10px);
+
+            -webkit-backdrop-filter:
+                blur(10px);
+        }
+
+
+        .signup-btn {
+
+            color: #111827;
+
+            background: white;
+
+            box-shadow:
+                0 7px 22px
+                rgba(0,0,0,0.20);
+        }
+
+
+        .signup-btn:hover {
+
+            color: white;
+
+            background:
+                rgba(255,255,255,0.15);
+        }
+
+
+        /* =========================================
+           SIGNUP AREA
+        ========================================= */
+
+        .signup-container {
+
+            position: relative;
+
+            z-index: 5;
+
+            min-height:
+                calc(100vh - 78px);
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding:
+                20px 15px 50px;
+        }
+
+
+        /* =========================================
+           SIGNUP CARD
+        ========================================= */
+
+        .signup-card {
+
+            width: 100%;
+
+            max-width: 520px;
+
+            padding:
+                35px 38px;
+
+            background:
+                rgba(255,255,255,0.97);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.7);
+
+            border-radius: 24px;
+
+            box-shadow:
+                0 25px 70px
+                rgba(0,0,0,0.35),
+
+                0 0 40px
+                rgba(99,102,241,0.10);
+
+            animation:
+                cardAnimation
+                0.7s ease;
+        }
+
+
+        @keyframes cardAnimation {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(35px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .signup-header {
+
+            text-align: center;
+
+            margin-bottom: 25px;
+        }
+
+
+        .signup-icon {
+
+            width: 65px;
+
+            height: 65px;
+
+            margin:
+                0 auto 15px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 18px;
+
+            color: white;
+
+            font-size: 28px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #7c3aed
+                );
+
+            box-shadow:
+                0 10px 28px
+                rgba(99,102,241,0.30);
+
+            transform:
+                rotate(-3deg);
+        }
+
+
+        .signup-title {
+
+            margin: 0;
+
+            color: #111827;
+
+            font-size: 29px;
+
+            font-weight: 700;
+
+            letter-spacing:
+                -0.4px;
+        }
+
+
+        .signup-subtitle {
+
+            margin:
+                7px 0 0;
+
+            color: #6b7280;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================================
+           DJANGO MESSAGES
+        ========================================= */
+
+        .message-container {
+
+            margin-bottom: 20px;
+        }
+
+
+        .custom-alert {
+
+            border: none;
+
+            border-radius: 11px;
+
+            padding:
+                12px 14px;
+
+            font-size: 13px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+        }
+
+
+        .custom-alert.alert-danger {
+
+            background: #fee2e2;
+
+            color: #991b1b;
+        }
+
+
+        .custom-alert.alert-success {
+
+            background: #dcfce7;
+
+            color: #166534;
+        }
+
+
+        .custom-alert.alert-warning {
+
+            background: #fef3c7;
+
+            color: #92400e;
+        }
+
+
+        .custom-alert.alert-info {
+
+            background: #dbeafe;
+
+            color: #1e40af;
+        }
+
+
+        /* =========================================
+           FORM GROUP
+        ========================================= */
+
+        .input-group-custom {
+
+            position: relative;
+
+            margin-bottom: 15px;
+        }
+
+
+        /* =========================================
+           INPUT ICON
+        ========================================= */
+
+        .input-group-custom > .input-icon {
+
+            position: absolute;
+
+            left: 15px;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            color: #6b7280;
+
+            font-size: 16px;
+
+            z-index: 5;
+
+            pointer-events: none;
+        }
+
+
+        /* =========================================
+           INPUT
+        ========================================= */
+
+        .form-control-custom {
+
+            width: 100%;
+
+            height: 50px;
+
+            padding:
+                0 45px;
+
+            border:
+                1px solid #d1d5db;
+
+            border-radius: 11px;
+
+            outline: none;
+
+            color: #111827;
+
+            background: #f9fafb;
+
+            font-size: 14px;
+
+            transition:
+                all 0.25s ease;
+        }
+
+
+        .form-control-custom:hover {
+
+            border-color:
+                #a5b4fc;
+
+            background: white;
+        }
+
+
+        .form-control-custom:focus {
+
+            border-color:
+                #6366f1;
+
+            background: white;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(99,102,241,0.10);
+        }
+
+
+        .form-control-custom::placeholder {
+
+            color: #9ca3af;
+        }
+
+
+        /* =========================================
+           PASSWORD TOGGLE
+        ========================================= */
+
+        .password-toggle {
+
+            position: absolute;
+
+            right: 14px;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            border: none;
+
+            background: transparent;
+
+            color: #6b7280;
+
+            cursor: pointer;
+
+            font-size: 17px;
+
+            padding: 4px;
+
+            z-index: 10;
+        }
+
+
+        .password-toggle:hover {
+
+            color: #4f46e5;
+        }
+
+
+        /* =========================================
+           PASSWORD STRENGTH
+        ========================================= */
+
+        .password-strength {
+
+            margin:
+                -5px 2px 15px;
+        }
+
+
+        .strength-bar {
+
+            width: 100%;
+
+            height: 5px;
+
+            background: #e5e7eb;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            margin-bottom: 6px;
+        }
+
+
+        .strength-progress {
+
+            height: 100%;
+
+            width: 0%;
+
+            border-radius: 20px;
+
+            transition:
+                all 0.3s ease;
+        }
+
+
+        .strength-text {
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+
+        /* =========================================
+           REQUIREMENTS
+        ========================================= */
+
+        .strength-requirements {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 5px;
+
+            margin-top: 7px;
+
+            font-size: 10.5px;
+
+            color: #9ca3af;
+        }
+
+
+        .requirement {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            transition:
+                color 0.2s ease;
+        }
+
+
+        .requirement i {
+
+            font-size: 9px;
+        }
+
+
+        .requirement.valid {
+
+            color: #16a34a;
+        }
+
+
+        .requirement.invalid {
+
+            color: #9ca3af;
+        }
+
+
+        /* =========================================
+           CONFIRM STATUS
+        ========================================= */
+
+        .confirm-status {
+
+            display: none;
+
+            margin:
+                -7px 2px 15px;
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+
+        .confirm-status.match {
+
+            display: block;
+
+            color: #16a34a;
+        }
+
+
+        .confirm-status.no-match {
+
+            display: block;
+
+            color: #dc2626;
+        }
+
+
+        /* =========================================
+           SUBMIT BUTTON
+        ========================================= */
+
+        .signup-button {
+
+            width: 100%;
+
+            height: 52px;
+
+            margin-top: 5px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #7c3aed
+                );
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 25px
+                rgba(99,102,241,0.25);
+
+            transition:
+                all 0.25s ease;
+        }
+
+
+        .signup-button:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 14px 30px
+                rgba(99,102,241,0.35);
+        }
+
+
+        .signup-button:active {
+
+            transform:
+                translateY(0);
+        }
+
+
+        .signup-button:disabled {
+
+            background: #9ca3af;
+
+            cursor: not-allowed;
+
+            transform: none;
+
+            box-shadow: none;
+        }
+
+
+        /* =========================================
+           LOGIN SECTION
+        ========================================= */
+
+        .login-divider {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin:
+                23px 0 17px;
+
+            color: #9ca3af;
+
+            font-size: 11px;
+        }
+
+
+        .login-divider::before,
+        .login-divider::after {
+
+            content: "";
+
+            height: 1px;
+
+            flex: 1;
+
+            background:
+                #e5e7eb;
+        }
+
+
+        .login-text {
+
+            text-align: center;
+
+            color: #6b7280;
+
+            font-size: 14px;
+        }
+
+
+        .login-text a {
+
+            color: #6366f1;
+
+            font-weight: 700;
+
+            text-decoration: none;
+
+            margin-left: 4px;
+
+            transition:
+                0.2s ease;
+        }
+
+
+        .login-text a:hover {
+
+            color: #7c3aed;
+
+            text-decoration: underline;
+        }
+
+
+        /* =========================================
+           SECURITY
+        ========================================= */
+
+        .security-text {
+
+            text-align: center;
+
+            margin-top: 18px;
+
+            color: #9ca3af;
+
+            font-size: 10.5px;
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 768px) {
+
+            .navbar-custom {
+
+                padding:
+                    15px 18px;
+            }
+
+
+            .brand-logo {
+
+                font-size: 19px;
+            }
+
+
+            .brand-logo i {
+
+                width: 34px;
+
+                height: 34px;
+
+                font-size: 16px;
+            }
+
+
+            .nav-actions {
+
+                gap: 5px;
+            }
+
+
+            .nav-btn {
+
+                padding:
+                    8px 11px;
+
+                font-size: 13px;
+            }
+
+
+            .signup-container {
+
+                padding:
+                    15px 15px 40px;
+            }
+        }
+
+
+        @media (max-width: 576px) {
+
+            .signup-card {
+
+                padding:
+                    30px 20px;
+
+                border-radius:
+                    20px;
+            }
+
+
+            .signup-title {
+
+                font-size: 25px;
+            }
+
+
+            .signup-icon {
+
+                width: 58px;
+
+                height: 58px;
+
+                font-size: 25px;
+            }
+
+
+            .home-text,
+            .login-text-nav,
+            .signup-text-nav {
+
+                display: none;
+            }
+
+
+            .nav-btn {
+
+                width: 40px;
+
+                height: 40px;
+
+                padding: 0;
+            }
+
+
+            .strength-requirements {
+
+                grid-template-columns:
+                    1fr;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         BACKGROUND
+    ========================================= -->
+
+    <div class="background-circle circle-one"></div>
+
+    <div class="background-circle circle-two"></div>
+
+    <div class="background-circle circle-three"></div>
+
+
+    <!-- =========================================
+         NAVBAR
+    ========================================= -->
+
+    <nav class="navbar-custom">
+
+        <div
+            class="d-flex
+                   align-items-center
+                   justify-content-between"
+        >
+
+
+            <!-- AI HUB -->
+
+            <a
+                href="/"
+                class="brand-logo"
+            >
+
+                <i class="bi bi-stars"></i>
+
+                <span>AI Tool Hub</span>
+
+            </a>
+
+
+            <!-- NAVIGATION -->
+
+            <div class="nav-actions">
+
+
+                <!-- HOME -->
+
+                <a
+                    href="/"
+                    class="nav-btn home-btn"
+                >
+
+                    <i
+                        class="bi bi-house-door-fill"
+                    ></i>
+
+                    <span class="home-text">
+                        Home
+                    </span>
+
+                </a>
+
+
+                <!-- LOGIN -->
+
+                <a
+                    href="/login/"
+                    class="nav-btn login-btn"
+                >
+
+                    <i
+                        class="bi bi-box-arrow-in-right"
+                    ></i>
+
+                    <span class="login-text-nav">
+                        Login
+                    </span>
+
+                </a>
+
+
+                <!-- SIGNUP -->
+
+                <a
+                    href="/signup/"
+                    class="nav-btn signup-btn"
+                >
+
+                    <i
+                        class="bi bi-person-plus-fill"
+                    ></i>
+
+                    <span class="signup-text-nav">
+                        Sign Up
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================================
+         SIGNUP CONTAINER
+    ========================================= -->
+
+    <div class="signup-container">
+
+
+        <div class="signup-card">
+
+
+            <!-- =====================================
+                 HEADER
+            ===================================== -->
+
+            <div class="signup-header">
+
+
+                <div class="signup-icon">
+
+                    <i
+                        class="bi bi-person-plus-fill"
+                    ></i>
+
+                </div>
+
+
+                <h1 class="signup-title">
+
+                    Create Account
+
+                </h1>
+
+
+                <p class="signup-subtitle">
+
+                    Join AI Tool Hub and explore powerful AI tools
+
+                </p>
+
+            </div>
+
+
+            <!-- =====================================
+                 DJANGO MESSAGES
+            ===================================== -->
+
+            {% if messages %}
+
+                <div class="message-container">
+
+                    {% for message in messages %}
+
+                        <div
+                            class="alert
+                                   alert-{{ message.tags }}
+                                   custom-alert
+                                   alert-dismissible
+                                   fade show"
+                            role="alert"
+                        >
+
+
+                            {% if message.tags == "success" %}
+
+                                <i
+                                    class="bi bi-check-circle-fill"
+                                ></i>
+
+                            {% elif message.tags == "error" %}
+
+                                <i
+                                    class="bi bi-exclamation-circle-fill"
+                                ></i>
+
+                            {% elif message.tags == "warning" %}
+
+                                <i
+                                    class="bi bi-exclamation-triangle-fill"
+                                ></i>
+
+                            {% else %}
+
+                                <i
+                                    class="bi bi-info-circle-fill"
+                                ></i>
+
+                            {% endif %}
+
+
+                            <span>
+
+                                {{ message }}
+
+                            </span>
+
+
+                            <button
+                                type="button"
+                                class="btn-close ms-auto"
+                                data-bs-dismiss="alert"
+                            ></button>
+
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- =====================================
+                 FORM
+            ===================================== -->
+
+            <form
+                method="POST"
+                action="{% url 'signup' %}"
+                id="signupForm"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- NAME -->
+
+                <div class="input-group-custom">
+
+                    <i
+                        class="bi bi-person input-icon"
+                    ></i>
+
+                    <input
+                        type="text"
+                        name="name"
+                        class="form-control-custom"
+                        placeholder="Full Name"
+                        value="{{ request.POST.name }}"
+                        autocomplete="name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- USERNAME -->
+
+                <div class="input-group-custom">
+
+                    <i
+                        class="bi bi-person-badge input-icon"
+                    ></i>
+
+                    <input
+                        type="text"
+                        name="username"
+                        class="form-control-custom"
+                        placeholder="Username"
+                        value="{{ request.POST.username }}"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="input-group-custom">
+
+                    <i
+                        class="bi bi-envelope input-icon"
+                    ></i>
+
+                    <input
+                        type="email"
+                        name="email"
+                        class="form-control-custom"
+                        placeholder="Email Address"
+                        value="{{ request.POST.email }}"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- MOBILE -->
+
+                <div class="input-group-custom">
+
+                    <i
+                        class="bi bi-phone input-icon"
+                    ></i>
+
+                    <input
+                        type="tel"
+                        name="mobile"
+                        class="form-control-custom"
+                        placeholder="Mobile Number"
+                        value="{{ request.POST.mobile }}"
+                        maxlength="10"
+                        minlength="10"
+                        inputmode="numeric"
+                        autocomplete="tel"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- =================================
+                     PASSWORD
+                ================================= -->
+
+                <div class="input-group-custom">
+
+                    <i
+                        class="bi bi-lock input-icon"
+                    ></i>
+
+
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        class="form-control-custom"
+                        placeholder="Create Password"
+                        autocomplete="new-password"
+                        required
+                    >
+
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword(
+                            'password',
+                            'passwordIcon'
+                        )"
+                    >
+
+                        <i
+                            class="bi bi-eye"
+                            id="passwordIcon"
+                        ></i>
+
+                    </button>
+
+                </div>
+
+
+                <!-- PASSWORD STRENGTH -->
+
+                <div class="password-strength">
+
+
+                    <div class="strength-bar">
+
+                        <div
+                            class="strength-progress"
+                            id="strengthProgress"
+                        ></div>
+
+                    </div>
+
+
+                    <div
+                        class="strength-text"
+                        id="strengthText"
+                    >
+
+                        Enter a password
+
+                    </div>
+
+
+                    <!-- REQUIREMENTS -->
+
+                    <div class="strength-requirements">
+
+
+                        <div
+                            class="requirement invalid"
+                            id="lengthRequirement"
+                        >
+
+                            <i
+                                class="bi bi-circle-fill"
+                            ></i>
+
+                            8+ characters
+
+                        </div>
+
+
+                        <div
+                            class="requirement invalid"
+                            id="uppercaseRequirement"
+                        >
+
+                            <i
+                                class="bi bi-circle-fill"
+                            ></i>
+
+                            Uppercase letter
+
+                        </div>
+
+
+                        <div
+                            class="requirement invalid"
+                            id="lowercaseRequirement"
+                        >
+
+                            <i
+                                class="bi bi-circle-fill"
+                            ></i>
+
+                            Lowercase letter
+
+                        </div>
+
+
+                        <div
+                            class="requirement invalid"
+                            id="numberRequirement"
+                        >
+
+                            <i
+                                class="bi bi-circle-fill"
+                            ></i>
+
+                            Number
+
+                        </div>
+
+
+                        <div
+                            class="requirement invalid"
+                            id="specialRequirement"
+                        >
+
+                            <i
+                                class="bi bi-circle-fill"
+                            ></i>
+
+                            Special character
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================
+                     CONFIRM PASSWORD
+                ================================= -->
+
+                <div class="input-group-custom">
+
+                    <i
+                        class="bi bi-shield-lock input-icon"
+                    ></i>
+
+
+                    <input
+                        type="password"
+                        name="confirm_password"
+                        id="confirm_password"
+                        class="form-control-custom"
+                        placeholder="Confirm Password"
+                        autocomplete="new-password"
+                        required
+                    >
+
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword(
+                            'confirm_password',
+                            'confirmPasswordIcon'
+                        )"
+                    >
+
+                        <i
+                            class="bi bi-eye"
+                            id="confirmPasswordIcon"
+                        ></i>
+
+                    </button>
+
+                </div>
+
+
+                <!-- CONFIRM STRENGTH -->
+
+                <div class="password-strength">
+
+
+                    <div class="strength-bar">
+
+                        <div
+                            class="strength-progress"
+                            id="confirmStrengthProgress"
+                        ></div>
+
+                    </div>
+
+
+                    <div
+                        class="strength-text"
+                        id="confirmStrengthText"
+                    >
+
+                        Enter confirm password
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD MATCH -->
+
+                <div
+                    class="confirm-status"
+                    id="confirmStatus"
+                ></div>
+
+
+                <!-- =================================
+                     CREATE ACCOUNT
+                ================================= -->
+
+                <button
+                    type="submit"
+                    class="signup-button"
+                    id="signupButton"
+                >
+
+                    <i
+                        class="bi bi-person-plus-fill me-2"
+                    ></i>
+
+                    Create Account
+
+                </button>
+
+
+            </form>
+
+
+            <!-- =====================================
+                 LOGIN
+            ===================================== -->
+
+            <div class="login-divider">
+
+                OR
+
+            </div>
+
+
+            <div class="login-text">
+
+                Already have an account?
+
+                <a href="/login/">
+
+                    Login
+
+                </a>
+
+            </div>
+
+
+            <!-- SECURITY -->
+
+            <div class="security-text">
+
+                <i class="bi bi-shield-check"></i>
+
+                Your account information is securely protected
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         BOOTSTRAP JS
+    ========================================= -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+
+    <!-- =========================================
+         PASSWORD JAVASCRIPT
+    ========================================= -->
+
+    <script>
+
+
+        /* =========================================
+           SHOW / HIDE PASSWORD
+        ========================================= */
+
+        function togglePassword(
+            inputId,
+            iconId
+        ) {
+
+            const input =
+                document.getElementById(
+                    inputId
+                );
+
+            const icon =
+                document.getElementById(
+                    iconId
+                );
+
+
+            if (
+                input.type === "password"
+            ) {
+
+                input.type = "text";
+
+                icon.classList.remove(
+                    "bi-eye"
+                );
+
+                icon.classList.add(
+                    "bi-eye-slash"
+                );
+
+            }
+
+            else {
+
+                input.type = "password";
+
+                icon.classList.remove(
+                    "bi-eye-slash"
+                );
+
+                icon.classList.add(
+                    "bi-eye"
+                );
+
+            }
+
+        }
+
+
+        /* =========================================
+           PASSWORD STRENGTH
+        ========================================= */
+
+        function getPasswordStrength(
+            password
+        ) {
+
+            let score = 0;
+
+
+            if (
+                password.length >= 8
+            ) {
+
+                score++;
+
+            }
+
+
+            if (
+                /[A-Z]/.test(password)
+            ) {
+
+                score++;
+
+            }
+
+
+            if (
+                /[a-z]/.test(password)
+            ) {
+
+                score++;
+
+            }
+
+
+            if (
+                /[0-9]/.test(password)
+            ) {
+
+                score++;
+
+            }
+
+
+            if (
+                /[^A-Za-z0-9]/.test(password)
+            ) {
+
+                score++;
+
+            }
+
+
+            return score;
+
+        }
+
+
+        /* =========================================
+           REQUIREMENT UPDATE
+        ========================================= */
+
+        function updateRequirement(
+            id,
+            valid
+        ) {
+
+            const element =
+                document.getElementById(
+                    id
+                );
+
+            const icon =
+                element.querySelector(
+                    "i"
+                );
+
+
+            if (valid) {
+
+                element.classList.remove(
+                    "invalid"
+                );
+
+                element.classList.add(
+                    "valid"
+                );
+
+                icon.classList.remove(
+                    "bi-circle-fill"
+                );
+
+                icon.classList.add(
+                    "bi-check-circle-fill"
+                );
+
+            }
+
+            else {
+
+                element.classList.remove(
+                    "valid"
+                );
+
+                element.classList.add(
+                    "invalid"
+                );
+
+                icon.classList.remove(
+                    "bi-check-circle-fill"
+                );
+
+                icon.classList.add(
+                    "bi-circle-fill"
+                );
+
+            }
+
+        }
+
+
+        /* =========================================
+           PASSWORD CHECK
+        ========================================= */
+
+        function checkPasswordStrength() {
+
+            const password =
+                document.getElementById(
+                    "password"
+                ).value;
+
+
+            const progress =
+                document.getElementById(
+                    "strengthProgress"
+                );
+
+
+            const text =
+                document.getElementById(
+                    "strengthText"
+                );
+
+
+            const lengthValid =
+                password.length >= 8;
+
+
+            const uppercaseValid =
+                /[A-Z]/.test(password);
+
+
+            const lowercaseValid =
+                /[a-z]/.test(password);
+
+
+            const numberValid =
+                /[0-9]/.test(password);
+
+
+            const specialValid =
+                /[^A-Za-z0-9]/.test(password);
+
+
+            updateRequirement(
+                "lengthRequirement",
+                lengthValid
+            );
+
+
+            updateRequirement(
+                "uppercaseRequirement",
+                uppercaseValid
+            );
+
+
+            updateRequirement(
+                "lowercaseRequirement",
+                lowercaseValid
+            );
+
+
+            updateRequirement(
+                "numberRequirement",
+                numberValid
+            );
+
+
+            updateRequirement(
+                "specialRequirement",
+                specialValid
+            );
+
+
+            const score =
+                getPasswordStrength(
+                    password
+                );
+
+
+            if (
+                password.length === 0
+            ) {
+
+                progress.style.width =
+                    "0%";
+
+                text.innerText =
+                    "Enter a password";
+
+                text.style.color =
+                    "#6b7280";
+
+                return;
+
+            }
+
+
+            if (score <= 2) {
+
+                progress.style.width =
+                    "40%";
+
+                progress.style.background =
+                    "#dc2626";
+
+                text.innerText =
+                    "Weak password";
+
+                text.style.color =
+                    "#dc2626";
+
+            }
+
+            else if (score <= 4) {
+
+                progress.style.width =
+                    "70%";
+
+                progress.style.background =
+                    "#f59e0b";
+
+                text.innerText =
+                    "Medium password";
+
+                text.style.color =
+                    "#d97706";
+
+            }
+
+            else {
+
+                progress.style.width =
+                    "100%";
+
+                progress.style.background =
+                    "#16a34a";
+
+                text.innerText =
+                    "Strong password";
+
+                text.style.color =
+                    "#16a34a";
+
+            }
+
+        }
+
+
+        /* =========================================
+           CONFIRM PASSWORD
+        ========================================= */
+
+        function checkConfirmPassword() {
+
+            const password =
+                document.getElementById(
+                    "password"
+                ).value;
+
+
+            const confirmPassword =
+                document.getElementById(
+                    "confirm_password"
+                ).value;
+
+
+            const progress =
+                document.getElementById(
+                    "confirmStrengthProgress"
+                );
+
+
+            const text =
+                document.getElementById(
+                    "confirmStrengthText"
+                );
+
+
+            const status =
+                document.getElementById(
+                    "confirmStatus"
+                );
+
+
+            if (
+                confirmPassword.length === 0
+            ) {
+
+                progress.style.width =
+                    "0%";
+
+                text.innerText =
+                    "Enter confirm password";
+
+                text.style.color =
+                    "#6b7280";
+
+                status.style.display =
+                    "none";
+
+                return;
+
+            }
+
+
+            const score =
+                getPasswordStrength(
+                    confirmPassword
+                );
+
+
+            if (score <= 2) {
+
+                progress.style.width =
+                    "40%";
+
+                progress.style.background =
+                    "#dc2626";
+
+                text.innerText =
+                    "Weak password";
+
+                text.style.color =
+                    "#dc2626";
+
+            }
+
+            else if (score <= 4) {
+
+                progress.style.width =
+                    "70%";
+
+                progress.style.background =
+                    "#f59e0b";
+
+                text.innerText =
+                    "Medium password";
+
+                text.style.color =
+                    "#d97706";
+
+            }
+
+            else {
+
+                progress.style.width =
+                    "100%";
+
+                progress.style.background =
+                    "#16a34a";
+
+                text.innerText =
+                    "Strong password";
+
+                text.style.color =
+                    "#16a34a";
+
+            }
+
+
+            /* PASSWORD MATCH */
+
+            if (
+                password === confirmPassword
+            ) {
+
+                status.style.display =
+                    "block";
+
+                status.classList.remove(
+                    "no-match"
+                );
+
+                status.classList.add(
+                    "match"
+                );
+
+                status.innerHTML =
+                    '<i class="bi bi-check-circle-fill me-1"></i>' +
+                    'Passwords match';
+
+            }
+
+            else {
+
+                status.style.display =
+                    "block";
+
+                status.classList.remove(
+                    "match"
+                );
+
+                status.classList.add(
+                    "no-match"
+                );
+
+                status.innerHTML =
+                    '<i class="bi bi-x-circle-fill me-1"></i>' +
+                    'Passwords do not match';
+
+            }
+
+        }
+
+
+        /* =========================================
+           EVENTS
+        ========================================= */
+
+        document
+            .getElementById("password")
+            .addEventListener(
+                "input",
+                function() {
+
+                    checkPasswordStrength();
+
+                    checkConfirmPassword();
+
+                }
+            );
+
+
+        document
+            .getElementById("confirm_password")
+            .addEventListener(
+                "input",
+                function() {
+
+                    checkConfirmPassword();
+
+                }
+            );
+
+
+        /* =========================================
+           FORM VALIDATION
+        ========================================= */
+
+        document
+            .getElementById("signupForm")
+            .addEventListener(
+                "submit",
+                function(event) {
+
+
+                    const password =
+                        document.getElementById(
+                            "password"
+                        ).value;
+
+
+                    const confirmPassword =
+                        document.getElementById(
+                            "confirm_password"
+                        ).value;
+
+
+                    const strength =
+                        getPasswordStrength(
+                            password
+                        );
+
+
+                    /* STRONG PASSWORD */
+
+                    if (
+                        strength < 5
+                    ) {
+
+                        event.preventDefault();
+
+                        alert(
+                            "Please create a strong password.\n\n" +
+                            "Use at least 8 characters, " +
+                            "uppercase, lowercase, " +
+                            "number and special character."
+                        );
+
+                        return;
+
+                    }
+
+
+                    /* PASSWORD MATCH */
+
+                    if (
+                        password !==
+                        confirmPassword
+                    ) {
+
+                        event.preventDefault();
+
+                        alert(
+                            "Password and confirm password do not match."
+                        );
+
+                        return;
+
+                    }
+
+                }
+            );
+
+    </script>
+
+
+</body>
+
+</html>

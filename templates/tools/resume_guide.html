@@ -1,0 +1,2632 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Resume Builder</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/style.css' %}">
+
+    <style>
+
+        /* =====================================================
+           PAGE
+        ===================================================== */
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    rgba(0, 0, 0, 0.55),
+                    rgba(0, 0, 0, 0.65)
+                ),
+                url("{% static 'images/ai-background.jpg' %}");
+
+            background-size: cover;
+
+            background-position: center;
+
+            background-attachment: fixed;
+
+            color: white;
+
+        }
+
+
+        /* =====================================================
+           BACK BUTTON
+        ===================================================== */
+
+        .back-button {
+
+            position: fixed;
+
+            top: 20px;
+
+            right: 25px;
+
+            z-index: 1000;
+
+            padding: 12px 20px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            color: white;
+
+            background: rgba(0, 0, 0, 0.65);
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+
+            backdrop-filter: blur(10px);
+
+            font-weight: bold;
+
+            transition: 0.3s;
+
+        }
+
+        .back-button:hover {
+
+            background: rgba(255, 255, 255, 0.15);
+
+            transform: translateY(-2px);
+
+        }
+
+
+        /* =====================================================
+           MAIN CONTAINER
+        ===================================================== */
+
+        .resume-container {
+
+            width: 90%;
+
+            max-width: 1100px;
+
+            margin: auto;
+
+            padding: 70px 20px 50px;
+
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .resume-header {
+
+            text-align: center;
+
+            margin-bottom: 35px;
+
+        }
+
+        .resume-header h1 {
+
+            font-size: 38px;
+
+            margin-bottom: 10px;
+
+        }
+
+        .resume-header p {
+
+            font-size: 17px;
+
+            opacity: 0.85;
+
+        }
+
+
+        /* =====================================================
+           GLASS CARD
+        ===================================================== */
+
+        .builder-card {
+
+            background: rgba(255, 255, 255, 0.10);
+
+            border: 1px solid rgba(255, 255, 255, 0.20);
+
+            backdrop-filter: blur(15px);
+
+            -webkit-backdrop-filter: blur(15px);
+
+            border-radius: 20px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 10px 40px
+                rgba(0, 0, 0, 0.30);
+
+        }
+
+
+        /* =====================================================
+           PROGRESS
+        ===================================================== */
+
+        .progress-area {
+
+            margin-bottom: 35px;
+
+        }
+
+        .progress-info {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-bottom: 10px;
+
+            font-weight: bold;
+
+        }
+
+        .progress-background {
+
+            width: 100%;
+
+            height: 10px;
+
+            background: rgba(255, 255, 255, 0.20);
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+        }
+
+        .progress-bar {
+
+            height: 100%;
+
+            width: 14.28%;
+
+            background: white;
+
+            border-radius: 20px;
+
+            transition: width 0.4s ease;
+
+        }
+
+
+        /* =====================================================
+           STEP
+        ===================================================== */
+
+        .step {
+
+            display: none;
+
+        }
+
+        .step.active {
+
+            display: block;
+
+        }
+
+        .step h2 {
+
+            margin-bottom: 10px;
+
+            font-size: 26px;
+
+        }
+
+        .step-description {
+
+            opacity: 0.8;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        /* =====================================================
+           FORM
+        ===================================================== */
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 20px;
+
+        }
+
+        .form-group {
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+        .form-group.full {
+
+            grid-column: 1 / -1;
+
+        }
+
+        label {
+
+            margin-bottom: 8px;
+
+            font-weight: bold;
+
+        }
+
+        input,
+        textarea,
+        select {
+
+            width: 100%;
+
+            box-sizing: border-box;
+
+            padding: 13px;
+
+            border-radius: 10px;
+
+            border: 1px solid
+                rgba(255, 255, 255, 0.25);
+
+            background:
+                rgba(0, 0, 0, 0.35);
+
+            color: white;
+
+            outline: none;
+
+            font-size: 15px;
+
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+
+            border-color: white;
+
+            background:
+                rgba(0, 0, 0, 0.45);
+
+        }
+
+        textarea {
+
+            min-height: 120px;
+
+            resize: vertical;
+
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+
+            color: rgba(255, 255, 255, 0.60);
+
+        }
+
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+
+        .navigation-buttons {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-top: 35px;
+
+            gap: 15px;
+
+        }
+
+        .nav-button {
+
+            padding: 13px 25px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            color: white;
+
+            background:
+                rgba(0, 0, 0, 0.70);
+
+            font-weight: bold;
+
+            font-size: 15px;
+
+            transition: 0.3s;
+
+        }
+
+        .nav-button:hover {
+
+            transform: translateY(-2px);
+
+            background:
+                rgba(255, 255, 255, 0.18);
+
+        }
+
+        .next-button {
+
+            margin-left: auto;
+
+        }
+
+
+        /* =====================================================
+           PREVIEW
+        ===================================================== */
+
+        #previewSection {
+
+            display: none;
+
+            margin-top: 40px;
+
+        }
+
+        .preview-title {
+
+            text-align: center;
+
+            margin-bottom: 20px;
+
+        }
+
+        .preview-title h2 {
+
+            font-size: 30px;
+
+        }
+
+        .preview-title p {
+
+            opacity: 0.8;
+
+        }
+
+
+        /* =====================================================
+           RESUME PAPER
+        ===================================================== */
+
+        #previewContent {
+
+            background: white;
+
+            color: #222;
+
+            padding: 50px;
+
+            border-radius: 5px;
+
+            max-width: 850px;
+
+            margin: auto;
+
+            min-height: 900px;
+
+            box-shadow:
+                0 10px 40px
+                rgba(0, 0, 0, 0.4);
+
+            line-height: 1.6;
+
+        }
+
+        #previewContent h1 {
+
+            margin: 0;
+
+            text-align: center;
+
+            font-size: 32px;
+
+        }
+
+        #previewContent .contact {
+
+            text-align: center;
+
+            margin-bottom: 25px;
+
+            color: #555;
+
+        }
+
+        #previewContent h3 {
+
+            margin-top: 25px;
+
+            padding-bottom: 5px;
+
+            border-bottom:
+                2px solid #333;
+
+            font-size: 18px;
+
+        }
+
+        #previewContent p {
+
+            margin: 7px 0;
+
+        }
+
+        #previewContent ul {
+
+            padding-left: 25px;
+
+        }
+
+
+        /* =====================================================
+           DOWNLOAD BUTTONS
+        ===================================================== */
+
+        .download-buttons {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+
+            margin-top: 25px;
+
+        }
+
+        .download-button {
+
+            padding: 13px 22px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            color: white;
+
+            background:
+                rgba(0, 0, 0, 0.75);
+
+            font-weight: bold;
+
+            transition: 0.3s;
+
+        }
+
+        .download-button:hover {
+
+            transform: translateY(-2px);
+
+            background:
+                rgba(0, 0, 0, 0.9);
+
+        }
+
+
+        /* =====================================================
+           RESET BUTTON
+        ===================================================== */
+
+        .reset-button {
+
+            display: block;
+
+            margin: 20px auto;
+
+            padding: 11px 22px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background:
+                rgba(255, 255, 255, 0.15);
+
+            color: white;
+
+            cursor: pointer;
+
+        }
+
+        .reset-button:hover {
+
+            background:
+                rgba(255, 255, 255, 0.25);
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 700px) {
+
+            .resume-container {
+
+                width: 94%;
+
+                padding-top: 90px;
+
+            }
+
+            .builder-card {
+
+                padding: 22px;
+
+            }
+
+            .form-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .form-group.full {
+
+                grid-column: auto;
+
+            }
+
+            .resume-header h1 {
+
+                font-size: 28px;
+
+            }
+
+            #previewContent {
+
+                padding: 25px;
+
+            }
+
+            .back-button {
+
+                right: 10px;
+
+                top: 10px;
+
+                font-size: 13px;
+
+                padding: 10px 14px;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           PRINT
+        ===================================================== */
+
+        @media print {
+
+            body {
+
+                background: white !important;
+
+                color: black !important;
+
+            }
+
+            .back-button,
+            .resume-header,
+            .builder-card,
+            .preview-title,
+            .download-buttons,
+            .reset-button {
+
+                display: none !important;
+
+            }
+
+            #previewSection {
+
+                display: block !important;
+
+                margin: 0;
+
+            }
+
+            #previewContent {
+
+                box-shadow: none;
+
+                border-radius: 0;
+
+                max-width: none;
+
+                min-height: auto;
+
+                padding: 30px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     BACK BUTTON
+===================================================== -->
+
+<a href="/"
+   class="back-button">
+
+    ← Back to AI Tool Hub
+
+</a>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<div class="resume-container">
+
+
+    <!-- =================================================
+         HEADER
+    ================================================= -->
+
+    <div class="resume-header">
+
+        <h1>
+            ✨ AI Resume Builder
+        </h1>
+
+        <p>
+            Create a professional resume step-by-step
+            and preview it instantly.
+        </p>
+
+    </div>
+
+
+
+    <!-- =================================================
+         BUILDER CARD
+    ================================================= -->
+
+    <div class="builder-card">
+
+
+        <!-- =============================================
+             PROGRESS
+        ============================================== -->
+
+        <div class="progress-area">
+
+            <div class="progress-info">
+
+                <span id="stepText">
+                    Step 1 of 7
+                </span>
+
+                <span id="progressPercent">
+                    14%
+                </span>
+
+            </div>
+
+
+            <div class="progress-background">
+
+                <div id="progressBar"
+                     class="progress-bar">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             STEP 1
+        ================================================= -->
+
+        <div class="step active"
+             id="step1">
+
+            <h2>
+                👤 Personal Information
+            </h2>
+
+            <p class="step-description">
+                Enter your basic contact information.
+            </p>
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="fullName"
+                        placeholder="Enter your full name">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="example@gmail.com">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Phone
+                    </label>
+
+                    <input
+                        type="text"
+                        id="phone"
+                        placeholder="+91 XXXXX XXXXX">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="location"
+                        placeholder="City, State">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        LinkedIn
+                    </label>
+
+                    <input
+                        type="text"
+                        id="linkedin"
+                        placeholder="LinkedIn profile">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        GitHub
+                    </label>
+
+                    <input
+                        type="text"
+                        id="github"
+                        placeholder="GitHub profile">
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             STEP 2
+        ================================================= -->
+
+        <div class="step"
+             id="step2">
+
+            <h2>
+                🎯 Career Objective
+            </h2>
+
+            <p class="step-description">
+                Tell us about your career goal.
+            </p>
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Target Job Role
+                    </label>
+
+                    <input
+                        type="text"
+                        id="jobRole"
+                        placeholder="Example: Java Full Stack Developer">
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Career Objective
+                    </label>
+
+                    <textarea
+                        id="objective"
+                        placeholder="Write your career objective..."></textarea>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             STEP 3
+        ================================================= -->
+
+        <div class="step"
+             id="step3">
+
+            <h2>
+                🎓 Education
+            </h2>
+
+            <p class="step-description">
+                Add your educational qualifications.
+            </p>
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Degree / Course
+                    </label>
+
+                    <input
+                        type="text"
+                        id="degree"
+                        placeholder="B.Tech CSE AI & ML">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        College / University
+                    </label>
+
+                    <input
+                        type="text"
+                        id="college"
+                        placeholder="College name">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        CGPA / Percentage
+                    </label>
+
+                    <input
+                        type="text"
+                        id="cgpa"
+                        placeholder="Example: 8.5 CGPA">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Graduation Year
+                    </label>
+
+                    <input
+                        type="text"
+                        id="graduation"
+                        placeholder="Example: 2027">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Intermediate / 12th
+                    </label>
+
+                    <input
+                        type="text"
+                        id="intermediate"
+                        placeholder="Percentage / Grade">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        10th
+                    </label>
+
+                    <input
+                        type="text"
+                        id="tenth"
+                        placeholder="Percentage / Grade">
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             STEP 4
+        ================================================= -->
+
+        <div class="step"
+             id="step4">
+
+            <h2>
+                💻 Technical Skills
+            </h2>
+
+            <p class="step-description">
+                Add your technical skills.
+            </p>
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Programming Languages
+                    </label>
+
+                    <input
+                        type="text"
+                        id="programming"
+                        placeholder="Java, Python, C">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Web Technologies
+                    </label>
+
+                    <input
+                        type="text"
+                        id="web"
+                        placeholder="HTML, CSS, JavaScript">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Frameworks
+                    </label>
+
+                    <input
+                        type="text"
+                        id="frameworks"
+                        placeholder="Spring Boot, Django">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Databases
+                    </label>
+
+                    <input
+                        type="text"
+                        id="databases"
+                        placeholder="MySQL, SQLite">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        AI / ML Skills
+                    </label>
+
+                    <input
+                        type="text"
+                        id="aiml"
+                        placeholder="Machine Learning, NLP">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Tools
+                    </label>
+
+                    <input
+                        type="text"
+                        id="tools"
+                        placeholder="Git, GitHub, VS Code">
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             STEP 5
+        ================================================= -->
+
+        <div class="step"
+             id="step5">
+
+            <h2>
+                🚀 Projects
+            </h2>
+
+            <p class="step-description">
+                Add your academic or personal projects.
+            </p>
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Project Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="projectName"
+                        placeholder="Example: AI Student Assistant">
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Technologies Used
+                    </label>
+
+                    <input
+                        type="text"
+                        id="projectTech"
+                        placeholder="Python, Django, Groq API">
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Project Description
+                    </label>
+
+                    <textarea
+                        id="projectDescription"
+                        placeholder="Describe your project, your role and major features..."></textarea>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             STEP 6
+        ================================================= -->
+
+        <div class="step"
+             id="step6">
+
+            <h2>
+                🏆 Experience & Certifications
+            </h2>
+
+            <p class="step-description">
+                Add internships, certifications and achievements.
+            </p>
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Internship / Experience
+                    </label>
+
+                    <textarea
+                        id="experience"
+                        placeholder="Example: Java Full Stack Intern - XYZ Company"></textarea>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Certifications
+                    </label>
+
+                    <textarea
+                        id="certifications"
+                        placeholder="Example: HackerRank SQL Basics, IBM AI Certificate"></textarea>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Achievements
+                    </label>
+
+                    <textarea
+                        id="achievements"
+                        placeholder="Awards, competitions, academic achievements..."></textarea>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             STEP 7
+        ================================================= -->
+
+        <div class="step"
+             id="step7">
+
+            <h2>
+                🌟 Additional Information
+            </h2>
+
+            <p class="step-description">
+                Add any additional information.
+            </p>
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Languages Known
+                    </label>
+
+                    <input
+                        type="text"
+                        id="languages"
+                        placeholder="English, Telugu, Hindi">
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Additional Information
+                    </label>
+
+                    <textarea
+                        id="additional"
+                        placeholder="Interests, volunteering, extracurricular activities..."></textarea>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             NAVIGATION
+        ================================================= -->
+
+        <div class="navigation-buttons">
+
+            <button
+                type="button"
+                id="previousButton"
+                class="nav-button"
+                onclick="previousStep()"
+                style="display:none;">
+
+                ← Previous
+
+            </button>
+
+
+            <button
+                type="button"
+                id="nextButton"
+                class="nav-button next-button"
+                onclick="nextStep()">
+
+                Next →
+
+            </button>
+
+
+            <button
+                type="button"
+                id="generateButton"
+                class="nav-button next-button"
+                onclick="generateResume()"
+                style="display:none;">
+
+                ✨ Generate Resume Preview
+
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         PREVIEW SECTION
+    ================================================= -->
+
+    <div id="previewSection">
+
+
+        <div class="preview-title">
+
+            <h2>
+                📄 Resume Preview
+            </h2>
+
+            <p>
+                Review your resume before downloading.
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             RESUME
+        ================================================= -->
+
+        <div id="previewContent">
+
+        </div>
+
+
+        <!-- =================================================
+             DOWNLOAD OPTIONS
+        ================================================= -->
+
+        <div class="download-buttons">
+
+
+            <button
+                type="button"
+                onclick="downloadPDF()"
+                class="download-button">
+
+                📄 Download PDF
+
+            </button>
+
+
+            <button
+                type="button"
+                onclick="downloadWord()"
+                class="download-button">
+
+                📝 Download Word
+
+            </button>
+
+
+            <button
+                type="button"
+                onclick="printResume()"
+                class="download-button">
+
+                🖨️ Print Resume
+
+            </button>
+
+
+        </div>
+
+
+        <button
+            type="button"
+            class="reset-button"
+            onclick="resetBuilder()">
+
+            🔄 Create Another Resume
+
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =====================================================
+   CURRENT STEP
+===================================================== */
+
+let currentStep = 1;
+
+const totalSteps = 7;
+
+
+
+/* =====================================================
+   SHOW STEP
+===================================================== */
+
+function showStep(step) {
+
+    const steps =
+        document.querySelectorAll(".step");
+
+
+    steps.forEach(function(element) {
+
+        element.classList.remove("active");
+
+    });
+
+
+    const selectedStep =
+        document.getElementById(
+            "step" + step
+        );
+
+
+    selectedStep.classList.add("active");
+
+
+    /* Progress */
+
+    const percentage =
+        (step / totalSteps) * 100;
+
+
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+        percentage + "%";
+
+
+    document.getElementById(
+        "progressPercent"
+    ).innerText =
+        Math.round(percentage) + "%";
+
+
+    document.getElementById(
+        "stepText"
+    ).innerText =
+        "Step " + step + " of " + totalSteps;
+
+
+    /* Previous button */
+
+    if (step === 1) {
+
+        document.getElementById(
+            "previousButton"
+        ).style.display = "none";
+
+    } else {
+
+        document.getElementById(
+            "previousButton"
+        ).style.display = "block";
+
+    }
+
+
+    /* Next / Generate */
+
+    if (step === totalSteps) {
+
+        document.getElementById(
+            "nextButton"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "generateButton"
+        ).style.display = "block";
+
+    } else {
+
+        document.getElementById(
+            "nextButton"
+        ).style.display = "block";
+
+
+        document.getElementById(
+            "generateButton"
+        ).style.display = "none";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   NEXT STEP
+===================================================== */
+
+function nextStep() {
+
+    if (currentStep < totalSteps) {
+
+        currentStep++;
+
+        showStep(currentStep);
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+}
+
+
+
+/* =====================================================
+   PREVIOUS STEP
+===================================================== */
+
+function previousStep() {
+
+    if (currentStep > 1) {
+
+        currentStep--;
+
+        showStep(currentStep);
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+}
+
+
+
+/* =====================================================
+   GET VALUE
+===================================================== */
+
+function getValue(id) {
+
+    const element =
+        document.getElementById(id);
+
+
+    if (!element) {
+
+        return "";
+
+    }
+
+
+    return element.value.trim();
+
+}
+
+
+
+/* =====================================================
+   GENERATE RESUME
+===================================================== */
+
+function generateResume() {
+
+
+    const fullName =
+        getValue("fullName");
+
+
+    const email =
+        getValue("email");
+
+
+    const phone =
+        getValue("phone");
+
+
+    const location =
+        getValue("location");
+
+
+    const linkedin =
+        getValue("linkedin");
+
+
+    const github =
+        getValue("github");
+
+
+    const jobRole =
+        getValue("jobRole");
+
+
+    const objective =
+        getValue("objective");
+
+
+    const degree =
+        getValue("degree");
+
+
+    const college =
+        getValue("college");
+
+
+    const cgpa =
+        getValue("cgpa");
+
+
+    const graduation =
+        getValue("graduation");
+
+
+    const intermediate =
+        getValue("intermediate");
+
+
+    const tenth =
+        getValue("tenth");
+
+
+    const programming =
+        getValue("programming");
+
+
+    const web =
+        getValue("web");
+
+
+    const frameworks =
+        getValue("frameworks");
+
+
+    const databases =
+        getValue("databases");
+
+
+    const aiml =
+        getValue("aiml");
+
+
+    const tools =
+        getValue("tools");
+
+
+    const projectName =
+        getValue("projectName");
+
+
+    const projectTech =
+        getValue("projectTech");
+
+
+    const projectDescription =
+        getValue("projectDescription");
+
+
+    const experience =
+        getValue("experience");
+
+
+    const certifications =
+        getValue("certifications");
+
+
+    const achievements =
+        getValue("achievements");
+
+
+    const languages =
+        getValue("languages");
+
+
+    const additional =
+        getValue("additional");
+
+
+
+    /* =================================================
+       BUILD EDUCATION
+    ================================================= */
+
+    let educationHTML = "";
+
+
+    if (degree || college) {
+
+        educationHTML += `
+            <p>
+                <strong>
+                    ${degree}
+                </strong>
+            </p>
+
+            <p>
+                ${college}
+            </p>
+
+            <p>
+                ${cgpa}
+                ${cgpa && graduation ? " | " : ""}
+                ${graduation}
+            </p>
+        `;
+
+    }
+
+
+    if (intermediate) {
+
+        educationHTML += `
+            <p>
+                <strong>
+                    Intermediate / 12th:
+                </strong>
+                ${intermediate}
+            </p>
+        `;
+
+    }
+
+
+    if (tenth) {
+
+        educationHTML += `
+            <p>
+                <strong>
+                    10th:
+                </strong>
+                ${tenth}
+            </p>
+        `;
+
+    }
+
+
+
+    /* =================================================
+       BUILD SKILLS
+    ================================================= */
+
+    let skillsHTML = "";
+
+
+    if (programming) {
+
+        skillsHTML += `
+            <p>
+                <strong>
+                    Programming Languages:
+                </strong>
+                ${programming}
+            </p>
+        `;
+
+    }
+
+
+    if (web) {
+
+        skillsHTML += `
+            <p>
+                <strong>
+                    Web Technologies:
+                </strong>
+                ${web}
+            </p>
+        `;
+
+    }
+
+
+    if (frameworks) {
+
+        skillsHTML += `
+            <p>
+                <strong>
+                    Frameworks:
+                </strong>
+                ${frameworks}
+            </p>
+        `;
+
+    }
+
+
+    if (databases) {
+
+        skillsHTML += `
+            <p>
+                <strong>
+                    Databases:
+                </strong>
+                ${databases}
+            </p>
+        `;
+
+    }
+
+
+    if (aiml) {
+
+        skillsHTML += `
+            <p>
+                <strong>
+                    AI / ML:
+                </strong>
+                ${aiml}
+            </p>
+        `;
+
+    }
+
+
+    if (tools) {
+
+        skillsHTML += `
+            <p>
+                <strong>
+                    Tools:
+                </strong>
+                ${tools}
+            </p>
+        `;
+
+    }
+
+
+
+    /* =================================================
+       BUILD PROJECT
+    ================================================= */
+
+    let projectHTML = "";
+
+
+    if (
+        projectName ||
+        projectTech ||
+        projectDescription
+    ) {
+
+        projectHTML = `
+
+            <p>
+
+                <strong>
+                    ${projectName}
+                </strong>
+
+            </p>
+
+            <p>
+
+                <strong>
+                    Technologies:
+                </strong>
+
+                ${projectTech}
+
+            </p>
+
+            <p>
+
+                ${projectDescription}
+
+            </p>
+
+        `;
+
+    }
+
+
+
+    /* =================================================
+       BUILD EXPERIENCE
+    ================================================= */
+
+    let experienceHTML = "";
+
+
+    if (experience) {
+
+        experienceHTML = `
+            <p>
+                ${experience}
+            </p>
+        `;
+
+    }
+
+
+
+    /* =================================================
+       BUILD CERTIFICATIONS
+    ================================================= */
+
+    let certificationHTML = "";
+
+
+    if (certifications) {
+
+        certificationHTML = `
+            <p>
+                ${certifications}
+            </p>
+        `;
+
+    }
+
+
+
+    /* =================================================
+       BUILD ACHIEVEMENTS
+    ================================================= */
+
+    let achievementHTML = "";
+
+
+    if (achievements) {
+
+        achievementHTML = `
+            <p>
+                ${achievements}
+            </p>
+        `;
+
+    }
+
+
+
+    /* =================================================
+       BUILD LANGUAGES
+    ================================================= */
+
+    let languageHTML = "";
+
+
+    if (languages) {
+
+        languageHTML = `
+            <p>
+                ${languages}
+            </p>
+        `;
+
+    }
+
+
+
+    /* =================================================
+       BUILD ADDITIONAL
+    ================================================= */
+
+    let additionalHTML = "";
+
+
+    if (additional) {
+
+        additionalHTML = `
+            <p>
+                ${additional}
+            </p>
+        `;
+
+    }
+
+
+
+    /* =================================================
+       CONTACT INFORMATION
+    ================================================= */
+
+    let contactHTML = "";
+
+
+    if (email) {
+
+        contactHTML +=
+            email;
+
+    }
+
+
+    if (phone) {
+
+        if (contactHTML) {
+
+            contactHTML +=
+                " | ";
+
+        }
+
+        contactHTML +=
+            phone;
+
+    }
+
+
+    if (location) {
+
+        if (contactHTML) {
+
+            contactHTML +=
+                " | ";
+
+        }
+
+        contactHTML +=
+            location;
+
+    }
+
+
+    if (linkedin) {
+
+        if (contactHTML) {
+
+            contactHTML +=
+                " | ";
+
+        }
+
+        contactHTML +=
+            linkedin;
+
+    }
+
+
+    if (github) {
+
+        if (contactHTML) {
+
+            contactHTML +=
+                " | ";
+
+        }
+
+        contactHTML +=
+            github;
+
+    }
+
+
+
+    /* =================================================
+       COMPLETE RESUME
+    ================================================= */
+
+    const resumeHTML = `
+
+        <h1>
+            ${fullName || "Your Name"}
+        </h1>
+
+
+        <div class="contact">
+
+            ${contactHTML}
+
+        </div>
+
+
+        ${
+            jobRole
+            ?
+            `
+            <h3>
+                TARGET ROLE
+            </h3>
+
+            <p>
+                <strong>
+                    ${jobRole}
+                </strong>
+            </p>
+            `
+            :
+            ""
+        }
+
+
+        ${
+            objective
+            ?
+            `
+            <h3>
+                CAREER OBJECTIVE
+            </h3>
+
+            <p>
+                ${objective}
+            </p>
+            `
+            :
+            ""
+        }
+
+
+        ${
+            educationHTML
+            ?
+            `
+            <h3>
+                EDUCATION
+            </h3>
+
+            ${educationHTML}
+            `
+            :
+            ""
+        }
+
+
+        ${
+            skillsHTML
+            ?
+            `
+            <h3>
+                TECHNICAL SKILLS
+            </h3>
+
+            ${skillsHTML}
+            `
+            :
+            ""
+        }
+
+
+        ${
+            projectHTML
+            ?
+            `
+            <h3>
+                PROJECTS
+            </h3>
+
+            ${projectHTML}
+            `
+            :
+            ""
+        }
+
+
+        ${
+            experienceHTML
+            ?
+            `
+            <h3>
+                EXPERIENCE / INTERNSHIP
+            </h3>
+
+            ${experienceHTML}
+            `
+            :
+            ""
+        }
+
+
+        ${
+            certificationHTML
+            ?
+            `
+            <h3>
+                CERTIFICATIONS
+            </h3>
+
+            ${certificationHTML}
+            `
+            :
+            ""
+        }
+
+
+        ${
+            achievementHTML
+            ?
+            `
+            <h3>
+                ACHIEVEMENTS
+            </h3>
+
+            ${achievementHTML}
+            `
+            :
+            ""
+        }
+
+
+        ${
+            languageHTML
+            ?
+            `
+            <h3>
+                LANGUAGES
+            </h3>
+
+            ${languageHTML}
+            `
+            :
+            ""
+        }
+
+
+        ${
+            additionalHTML
+            ?
+            `
+            <h3>
+                ADDITIONAL INFORMATION
+            </h3>
+
+            ${additionalHTML}
+            `
+            :
+            ""
+        }
+
+    `;
+
+
+
+    document.getElementById(
+        "previewContent"
+    ).innerHTML =
+        resumeHTML;
+
+
+
+    document.getElementById(
+        "previewSection"
+    ).style.display =
+        "block";
+
+
+
+    document.getElementById(
+        "previewSection"
+    ).scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+
+/* =====================================================
+   PRINT RESUME
+===================================================== */
+
+function printResume() {
+
+
+    const resume =
+        document.getElementById(
+            "previewContent"
+        ).innerHTML;
+
+
+    const printWindow =
+        window.open(
+            "",
+            "",
+            "width=900,height=700"
+        );
+
+
+    printWindow.document.write(`
+
+        <!DOCTYPE html>
+
+        <html>
+
+        <head>
+
+            <title>
+                Resume
+            </title>
+
+
+            <style>
+
+                body {
+
+                    font-family:
+                        Arial,
+                        sans-serif;
+
+                    padding:
+                        40px;
+
+                    color:
+                        #222;
+
+                    line-height:
+                        1.6;
+
+                }
+
+
+                h1 {
+
+                    margin-bottom:
+                        5px;
+
+                    text-align:
+                        center;
+
+                }
+
+
+                .contact {
+
+                    text-align:
+                        center;
+
+                    color:
+                        #555;
+
+                    margin-bottom:
+                        25px;
+
+                }
+
+
+                h3 {
+
+                    border-bottom:
+                        1px solid #999;
+
+                    padding-bottom:
+                        5px;
+
+                    margin-top:
+                        25px;
+
+                }
+
+            </style>
+
+        </head>
+
+
+        <body>
+
+            ${resume}
+
+        </body>
+
+        </html>
+
+    `);
+
+
+    printWindow.document.close();
+
+
+    printWindow.focus();
+
+
+    printWindow.print();
+
+}
+
+
+
+/* =====================================================
+   DOWNLOAD PDF
+===================================================== */
+
+function downloadPDF() {
+
+    /*
+       Browser PDF download works through
+       the print dialog.
+
+       Choose:
+       "Save as PDF"
+    */
+
+    printResume();
+
+}
+
+
+
+/* =====================================================
+   DOWNLOAD WORD
+===================================================== */
+
+function downloadWord() {
+
+
+    const resume =
+        document.getElementById(
+            "previewContent"
+        ).innerHTML;
+
+
+    const wordDocument = `
+
+        <!DOCTYPE html>
+
+        <html>
+
+        <head>
+
+            <meta charset="UTF-8">
+
+            <title>
+                AI Generated Resume
+            </title>
+
+        </head>
+
+
+        <body>
+
+            ${resume}
+
+        </body>
+
+        </html>
+
+    `;
+
+
+    const blob =
+        new Blob(
+            [wordDocument],
+            {
+                type:
+                    "application/msword"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+
+    link.href =
+        url;
+
+
+    link.download =
+        "AI_Generated_Resume.doc";
+
+
+    document.body.appendChild(
+        link
+    );
+
+
+    link.click();
+
+
+    document.body.removeChild(
+        link
+    );
+
+
+    URL.revokeObjectURL(
+        url
+    );
+
+}
+
+
+
+/* =====================================================
+   RESET BUILDER
+===================================================== */
+
+function resetBuilder() {
+
+
+    const inputs =
+        document.querySelectorAll(
+            "input, textarea"
+        );
+
+
+    inputs.forEach(
+        function(input) {
+
+            input.value = "";
+
+        }
+    );
+
+
+    currentStep = 1;
+
+
+    showStep(1);
+
+
+    document.getElementById(
+        "previewSection"
+    ).style.display =
+        "none";
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+showStep(1);
+
+
+</script>
+
+
+</body>
+
+</html>

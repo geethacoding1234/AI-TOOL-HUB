@@ -1,0 +1,1183 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Resume Assistant</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/style.css' %}">
+
+    <style>
+
+        /* =========================================
+           PAGE
+        ========================================= */
+
+        body {
+            min-height: 100vh;
+        }
+
+
+        /* =========================================
+           BACK BUTTON
+        ========================================= */
+
+        .back-button {
+            position: fixed;
+            top: 25px;
+            right: 30px;
+
+            z-index: 9999;
+
+            text-decoration: none;
+
+            padding: 11px 20px;
+
+            border-radius: 10px;
+
+            background: rgba(255, 255, 255, 0.15);
+
+            backdrop-filter: blur(12px);
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: 0.3s;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================================
+           MAIN CONTAINER
+        ========================================= */
+
+        .resume-container {
+
+            max-width: 1100px;
+
+            margin: 0 auto;
+
+            padding: 110px 25px 60px;
+
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .resume-header {
+
+            text-align: center;
+
+            margin-bottom: 45px;
+
+        }
+
+        .resume-header h1 {
+
+            font-size: 42px;
+
+            margin-bottom: 12px;
+
+        }
+
+        .resume-header p {
+
+            font-size: 17px;
+
+            opacity: 0.8;
+
+            max-width: 700px;
+
+            margin: auto;
+
+            line-height: 1.6;
+
+        }
+
+
+        /* =========================================
+           TWO OPTION CARDS
+        ========================================= */
+
+        .resume-options {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 30px;
+
+            margin-bottom: 40px;
+
+        }
+
+
+        .resume-option {
+
+            padding: 35px;
+
+            border-radius: 22px;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            backdrop-filter: blur(15px);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.20);
+
+            box-shadow:
+                0 10px 35px rgba(0,0,0,0.25);
+
+            text-align: center;
+
+            transition: 0.3s;
+
+        }
+
+
+        .resume-option:hover {
+
+            transform: translateY(-7px);
+
+            background:
+                rgba(255, 255, 255, 0.15);
+
+        }
+
+
+        .resume-option-icon {
+
+            font-size: 55px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .resume-option h2 {
+
+            font-size: 25px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .resume-option p {
+
+            line-height: 1.6;
+
+            opacity: 0.8;
+
+            min-height: 75px;
+
+        }
+
+
+        /* =========================================
+           OPTION BUTTON
+        ========================================= */
+
+        .option-button {
+
+            display: inline-block;
+
+            margin-top: 20px;
+
+            padding: 13px 28px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            color: white;
+
+            background:
+                rgba(255,255,255,0.18);
+
+            border:
+                1px solid rgba(255,255,255,0.25);
+
+            font-weight: bold;
+
+            transition: 0.3s;
+
+        }
+
+
+        .option-button:hover {
+
+            background:
+                rgba(255,255,255,0.30);
+
+            transform: translateY(-2px);
+
+        }
+
+
+        /* =========================================
+           CHECK RESUME SECTION
+        ========================================= */
+
+        #checkerSection {
+
+            display: none;
+
+            margin-top: 35px;
+
+        }
+
+
+        .resume-box {
+
+            padding: 35px;
+
+            border-radius: 22px;
+
+            background:
+                rgba(255,255,255,0.10);
+
+            backdrop-filter: blur(15px);
+
+            border:
+                1px solid rgba(255,255,255,0.20);
+
+            box-shadow:
+                0 10px 35px rgba(0,0,0,0.25);
+
+        }
+
+
+        .section-title {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .section-title h2 {
+
+            font-size: 30px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .section-title p {
+
+            opacity: 0.75;
+
+        }
+
+
+        /* =========================================
+           FORM
+        ========================================= */
+
+        .form-group {
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 10px;
+
+            font-weight: bold;
+
+        }
+
+
+        .form-group input {
+
+            width: 100%;
+
+            box-sizing: border-box;
+
+            padding: 14px;
+
+            border-radius: 10px;
+
+            border:
+                1px solid rgba(255,255,255,0.25);
+
+            background:
+                rgba(255,255,255,0.08);
+
+            color: white;
+
+            outline: none;
+
+        }
+
+
+        .form-group input::file-selector-button {
+
+            padding: 8px 12px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            margin-right: 10px;
+
+            cursor: pointer;
+
+        }
+
+
+        .file-name {
+
+            margin-top: 9px;
+
+            font-size: 13px;
+
+            opacity: 0.7;
+
+        }
+
+
+        /* =========================================
+           ANALYZE BUTTON
+        ========================================= */
+
+        .analyze-button {
+
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            background:
+                rgba(255,255,255,0.20);
+
+            color: white;
+
+            transition: 0.3s;
+
+        }
+
+
+        .analyze-button:hover {
+
+            background:
+                rgba(255,255,255,0.30);
+
+        }
+
+
+        /* =========================================
+           RESULT
+        ========================================= */
+
+        .result-section {
+
+            display: none;
+
+            margin-top: 40px;
+
+        }
+
+
+        /* =========================================
+           SCORE CIRCLE
+        ========================================= */
+
+        .score-container {
+
+            display: flex;
+
+            justify-content: center;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .score-circle {
+
+            width: 190px;
+
+            height: 190px;
+
+            border-radius: 50%;
+
+            background:
+                conic-gradient(
+                    #ffffff var(--score),
+                    rgba(255,255,255,0.15) 0
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            position: relative;
+
+        }
+
+
+        .score-circle::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 145px;
+
+            height: 145px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(25, 25, 35, 0.95);
+
+        }
+
+
+        .score-content {
+
+            position: relative;
+
+            z-index: 2;
+
+            text-align: center;
+
+        }
+
+
+        .score-number {
+
+            font-size: 42px;
+
+            font-weight: bold;
+
+        }
+
+
+        .score-label {
+
+            font-size: 13px;
+
+            opacity: 0.7;
+
+        }
+
+
+        /* =========================================
+           ANALYSIS OUTPUT
+        ========================================= */
+
+        .output-box {
+
+            padding: 25px;
+
+            border-radius: 15px;
+
+            background:
+                rgba(0,0,0,0.20);
+
+            white-space: pre-wrap;
+
+            line-height: 1.7;
+
+            min-height: 180px;
+
+        }
+
+
+        .loading {
+
+            text-align: center;
+
+            padding: 30px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 750px) {
+
+            .resume-options {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .resume-header h1 {
+
+                font-size: 32px;
+
+            }
+
+
+            .back-button {
+
+                right: 15px;
+
+                top: 15px;
+
+                font-size: 12px;
+
+                padding: 9px 13px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     BACK TO AI TOOL HUB
+========================================= -->
+
+<a href="/" class="back-button">
+    ← Back to AI Tool Hub
+</a>
+
+
+<!-- =========================================
+     MAIN
+========================================= -->
+
+<div class="resume-container">
+
+
+    <!-- HEADER -->
+
+    <div class="resume-header">
+
+        <h1>
+            📄 AI Resume Assistant
+        </h1>
+
+        <p>
+            Analyze your existing resume or create
+            a professional resume with AI guidance.
+        </p>
+
+    </div>
+
+
+    <!-- =====================================
+         TWO OPTIONS
+    ====================================== -->
+
+    <div class="resume-options">
+
+
+        <!-- CHECK RESUME -->
+
+        <div class="resume-option">
+
+            <div class="resume-option-icon">
+                🔍
+            </div>
+
+            <h2>
+                Check Existing Resume
+            </h2>
+
+            <p>
+                Upload your resume and receive an
+                AI-generated percentage score,
+                strengths, weaknesses, missing skills,
+                suggestions and improvements.
+            </p>
+
+            <button
+                class="option-button"
+                onclick="showChecker()">
+
+                Check My Resume →
+
+            </button>
+
+        </div>
+
+
+        <!-- CREATE RESUME -->
+
+        <div class="resume-option">
+
+            <div class="resume-option-icon">
+                ✨
+            </div>
+
+            <h2>
+                Create Resume
+            </h2>
+
+            <p>
+                Build your resume step by step with
+                an AI-powered guide for education,
+                skills, projects, certifications and
+                professional content.
+            </p>
+
+            <a
+                href="/resume-guide/"
+                class="option-button">
+
+                Start Resume Guide →
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         RESUME CHECKER
+    ====================================== -->
+
+    <div id="checkerSection">
+
+        <div class="resume-box">
+
+
+            <!-- SECTION TITLE -->
+
+            <div class="section-title">
+
+                <h2>
+                    🔍 Check Your Resume
+                </h2>
+
+                <p>
+                    Upload your resume and select
+                    your target job role.
+                </p>
+
+            </div>
+
+
+            <!-- FORM -->
+
+            <form
+                id="resumeForm"
+                enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+
+                <!-- TARGET ROLE -->
+
+                <div class="form-group">
+
+                    <label for="jobRole">
+                        Target Job Role
+                    </label>
+
+                    <input
+                        type="text"
+                        id="jobRole"
+                        name="job_role"
+                        placeholder="Example: Java Full Stack Developer"
+                        required>
+
+                </div>
+
+
+                <!-- FILE -->
+
+                <div class="form-group">
+
+                    <label for="resumeFile">
+                        Upload Resume
+                    </label>
+
+                    <input
+                        type="file"
+                        id="resumeFile"
+                        name="resume"
+                        accept=".pdf,.docx,.txt"
+                        required>
+
+                    <div
+                        class="file-name"
+                        id="fileName">
+
+                        Supported formats:
+                        PDF, DOCX, TXT
+
+                    </div>
+
+                </div>
+
+
+                <!-- BUTTON -->
+
+                <button
+                    type="submit"
+                    class="analyze-button">
+
+                    🚀 Analyze Resume
+
+                </button>
+
+            </form>
+
+
+            <!-- =================================
+                 RESULT
+            ================================== -->
+
+            <div
+                class="result-section"
+                id="resultSection">
+
+
+                <!-- SCORE -->
+
+                <div class="score-container">
+
+                    <div
+                        class="score-circle"
+                        id="scoreCircle"
+                        style="--score: 0%;">
+
+                        <div class="score-content">
+
+                            <div
+                                class="score-number"
+                                id="scoreNumber">
+
+                                0%
+
+                            </div>
+
+                            <div class="score-label">
+
+                                Resume Score
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- AI OUTPUT -->
+
+                <div
+                    class="output-box"
+                    id="resumeOutput">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+// =========================================
+// SHOW CHECKER
+// =========================================
+
+function showChecker() {
+
+    const checker =
+        document.getElementById(
+            "checkerSection"
+        );
+
+    checker.style.display = "block";
+
+    checker.scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+// =========================================
+// FILE NAME
+// =========================================
+
+const resumeFile =
+    document.getElementById(
+        "resumeFile"
+    );
+
+const fileName =
+    document.getElementById(
+        "fileName"
+    );
+
+
+resumeFile.addEventListener(
+    "change",
+    function () {
+
+        if (this.files.length > 0) {
+
+            fileName.textContent =
+                "Selected file: " +
+                this.files[0].name;
+
+        }
+
+    }
+);
+
+
+// =========================================
+// FORM
+// =========================================
+
+const resumeForm =
+    document.getElementById(
+        "resumeForm"
+    );
+
+const resumeOutput =
+    document.getElementById(
+        "resumeOutput"
+    );
+
+const resultSection =
+    document.getElementById(
+        "resultSection"
+    );
+
+const scoreNumber =
+    document.getElementById(
+        "scoreNumber"
+    );
+
+const scoreCircle =
+    document.getElementById(
+        "scoreCircle"
+    );
+
+
+resumeForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const jobRole =
+            document.getElementById(
+                "jobRole"
+            ).value.trim();
+
+
+        const file =
+            resumeFile.files[0];
+
+
+        // -----------------------------
+        // CHECK JOB ROLE
+        // -----------------------------
+
+        if (!jobRole) {
+
+            alert(
+                "Please enter the target job role."
+            );
+
+            return;
+
+        }
+
+
+        // -----------------------------
+        // CHECK FILE
+        // -----------------------------
+
+        if (!file) {
+
+            alert(
+                "Please upload your resume."
+            );
+
+            return;
+
+        }
+
+
+        // -----------------------------
+        // CHECK EXTENSION
+        // -----------------------------
+
+        const allowedExtensions =
+            ["pdf", "docx", "txt"];
+
+
+        const extension =
+            file.name
+                .split(".")
+                .pop()
+                .toLowerCase();
+
+
+        if (
+            !allowedExtensions
+                .includes(extension)
+        ) {
+
+            alert(
+                "Please upload a PDF, DOCX or TXT file."
+            );
+
+            return;
+
+        }
+
+
+        // -----------------------------
+        // FORM DATA
+        // -----------------------------
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "job_role",
+            jobRole
+        );
+
+
+        formData.append(
+            "resume",
+            file
+        );
+
+
+        // -----------------------------
+        // CSRF
+        // -----------------------------
+
+        const csrfToken =
+            document.querySelector(
+                "[name=csrfmiddlewaretoken]"
+            ).value;
+
+
+        // -----------------------------
+        // SHOW RESULT
+        // -----------------------------
+
+        resultSection.style.display =
+            "block";
+
+
+        resumeOutput.innerHTML =
+            "<div class='loading'>" +
+            "⏳ Analyzing your resume...<br><br>" +
+            "Please wait while AI reviews your resume." +
+            "</div>";
+
+
+        resultSection.scrollIntoView({
+            behavior: "smooth"
+        });
+
+
+        try {
+
+
+            // -----------------------------
+            // SEND TO DJANGO
+            // -----------------------------
+
+            const response =
+                await fetch(
+                    "/resume/",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "X-CSRFToken":
+                                csrfToken
+                        },
+
+                        body: formData
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Server error: " +
+                    response.status
+                );
+
+            }
+
+
+            // -----------------------------
+            // READ STREAM
+            // -----------------------------
+
+            const reader =
+                response.body.getReader();
+
+
+            const decoder =
+                new TextDecoder();
+
+
+            let result = "";
+
+
+            resumeOutput.textContent = "";
+
+
+            while (true) {
+
+                const {
+                    done,
+                    value
+                } = await reader.read();
+
+
+                if (done) {
+                    break;
+                }
+
+
+                result +=
+                    decoder.decode(
+                        value,
+                        {
+                            stream: true
+                        }
+                    );
+
+
+                resumeOutput.textContent =
+                    result;
+
+
+                // -------------------------
+                // FIND SCORE
+                // -------------------------
+
+                const scoreMatch =
+                    result.match(
+                        /OVERALL RESUME SCORE:\s*(\d{1,3})\s*\/\s*100/i
+                    );
+
+
+                if (scoreMatch) {
+
+                    let score =
+                        parseInt(
+                            scoreMatch[1]
+                        );
+
+
+                    // Keep score between 0 and 100
+
+                    score =
+                        Math.max(
+                            0,
+                            Math.min(
+                                100,
+                                score
+                            )
+                        );
+
+
+                    scoreNumber.textContent =
+                        score + "%";
+
+
+                    scoreCircle.style
+                        .setProperty(
+                            "--score",
+                            score + "%"
+                        );
+
+                }
+
+            }
+
+
+        }
+
+        catch(error) {
+
+            resumeOutput.textContent =
+                "❌ Error analyzing resume: " +
+                error.message;
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

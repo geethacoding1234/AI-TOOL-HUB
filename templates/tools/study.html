@@ -1,0 +1,877 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Study Assistant | AI Tool Hub</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            min-height: 100vh;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    rgba(3, 10, 22, 0.72),
+                    rgba(3, 10, 22, 0.84)
+                ),
+                url("{% static 'images/ai-background.jpg' %}");
+
+            background-size: cover;
+
+            background-position: center;
+
+            background-attachment: fixed;
+
+            overflow-x: hidden;
+        }
+
+
+        /* =========================================
+           BACK BUTTON
+        ========================================= */
+
+        .back-button {
+
+            position: fixed;
+
+            top: 25px;
+
+            right: 30px;
+
+            padding: 10px 18px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            color: white;
+
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.18);
+
+            backdrop-filter: blur(12px);
+
+            -webkit-backdrop-filter: blur(12px);
+
+            font-size: 14px;
+
+            transition: 0.2s;
+
+            z-index: 100;
+        }
+
+
+        .back-button:hover {
+
+            background:
+                rgba(255, 255, 255, 0.16);
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =========================================
+           MAIN CONTAINER
+        ========================================= */
+
+        .container {
+
+            width: 90%;
+
+            max-width: 1250px;
+
+            margin: auto;
+
+            padding:
+                100px 0 50px;
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .header {
+
+            text-align: center;
+
+            margin-bottom: 40px;
+        }
+
+
+        .header h1 {
+
+            font-size: 42px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .header p {
+
+            color:
+                rgba(255, 255, 255, 0.72);
+
+            font-size: 16px;
+        }
+
+
+        /* =========================================
+           STUDY BOX
+        ========================================= */
+
+        .study-box {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 25px;
+        }
+
+
+        .panel {
+
+            background:
+                rgba(255, 255, 255, 0.065);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.14);
+
+            border-radius: 20px;
+
+            padding: 25px;
+
+            backdrop-filter: blur(20px);
+
+            -webkit-backdrop-filter: blur(20px);
+
+            box-shadow:
+                0 10px 40px
+                rgba(0, 0, 0, 0.25);
+        }
+
+
+        .panel h2 {
+
+            font-size: 20px;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* =========================================
+           FORM GROUP
+        ========================================= */
+
+        .form-group {
+
+            margin-bottom: 18px;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 14px;
+
+            color:
+                rgba(255, 255, 255, 0.75);
+        }
+
+
+        /* =========================================
+           SELECT
+        ========================================= */
+
+        select {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border-radius: 10px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.15);
+
+            outline: none;
+
+            background:
+                rgba(0, 0, 0, 0.30);
+
+            color: white;
+
+            font-size: 14px;
+        }
+
+
+        select option {
+
+            background: #111827;
+
+            color: white;
+        }
+
+
+        /* =========================================
+           TEXTAREA
+        ========================================= */
+
+        textarea {
+
+            width: 100%;
+
+            min-height: 300px;
+
+            resize: vertical;
+
+            padding: 18px;
+
+            border-radius: 14px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.15);
+
+            outline: none;
+
+            background:
+                rgba(0, 0, 0, 0.22);
+
+            color: white;
+
+            font-size: 15px;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            line-height: 1.6;
+        }
+
+
+        textarea::placeholder {
+
+            color:
+                rgba(255, 255, 255, 0.40);
+        }
+
+
+        textarea:focus {
+
+            border-color:
+                rgba(255, 255, 255, 0.35);
+        }
+
+
+        /* =========================================
+           BUTTON
+        ========================================= */
+
+        .study-button {
+
+            width: 100%;
+
+            margin-top: 5px;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background:
+                rgba(255, 255, 255, 0.12);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.18);
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .study-button:hover {
+
+            background:
+                rgba(255, 255, 255, 0.20);
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        .study-button:disabled {
+
+            opacity: 0.5;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+
+        /* =========================================
+           OUTPUT
+        ========================================= */
+
+        .study-output {
+
+            min-height: 430px;
+
+            padding: 18px;
+
+            border-radius: 14px;
+
+            background:
+                rgba(0, 0, 0, 0.25);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.12);
+
+            color:
+                rgba(255, 255, 255, 0.92);
+
+            font-size: 15px;
+
+            line-height: 1.7;
+
+            white-space: pre-wrap;
+
+            overflow-y: auto;
+        }
+
+
+        .output-placeholder {
+
+            color:
+                rgba(255, 255, 255, 0.40);
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 850px) {
+
+            .study-box {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .header h1 {
+
+                font-size: 32px;
+            }
+
+
+            .back-button {
+
+                top: 15px;
+
+                right: 15px;
+
+                font-size: 12px;
+
+                padding:
+                    8px 12px;
+            }
+
+
+            .container {
+
+                padding-top: 90px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     BACK TO AI TOOL HUB
+========================================= -->
+
+<a href="/"
+   class="back-button">
+
+    ← Back to AI Tool Hub
+
+</a>
+
+
+<div class="container">
+
+
+    <!-- =========================================
+         HEADER
+    ========================================= -->
+
+    <div class="header">
+
+        <h1>
+            📚 AI Study Assistant
+        </h1>
+
+        <p>
+            Learn concepts, create notes and prepare for examinations with AI
+        </p>
+
+    </div>
+
+
+    <!-- =========================================
+         STUDY BOX
+    ========================================= -->
+
+    <div class="study-box">
+
+
+        <!-- =====================================
+             INPUT PANEL
+        ====================================== -->
+
+        <div class="panel">
+
+            <h2>
+                Study Assistant
+            </h2>
+
+
+            <!-- SUBJECT -->
+
+            <div class="form-group">
+
+                <label for="subject">
+
+                    Subject
+
+                </label>
+
+
+                <select id="subject">
+
+                    <option value="Computer Science">
+                        Computer Science
+                    </option>
+
+                    <option value="Artificial Intelligence">
+                        Artificial Intelligence
+                    </option>
+
+                    <option value="Machine Learning">
+                        Machine Learning
+                    </option>
+
+                    <option value="Data Structures">
+                        Data Structures
+                    </option>
+
+                    <option value="Database Management Systems">
+                        Database Management Systems
+                    </option>
+
+                    <option value="Java Programming">
+                        Java Programming
+                    </option>
+
+                    <option value="Python Programming">
+                        Python Programming
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- STUDY TASK -->
+
+            <div class="form-group">
+
+                <label for="studyTask">
+
+                    Study Task
+
+                </label>
+
+
+                <select id="studyTask">
+
+                    <option value="Explain Concept">
+                        Explain Concept
+                    </option>
+
+                    <option value="Create Notes">
+                        Create Notes
+                    </option>
+
+                    <option value="Generate Questions">
+                        Generate Questions
+                    </option>
+
+                    <option value="Create Exam Answer">
+                        Create Exam Answer
+                    </option>
+
+                    <option value="Create Quiz">
+                        Create Quiz
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- QUESTION -->
+
+            <div class="form-group">
+
+                <label for="studyInput">
+
+                    Topic or Question
+
+                </label>
+
+
+                <textarea
+                    id="studyInput"
+                    placeholder="Example:
+
+Explain the difference between supervised and unsupervised learning.
+
+OR
+
+Create 10 questions on Java OOP concepts."></textarea>
+
+            </div>
+
+
+            <!-- CSRF -->
+
+            <form style="display:none;">
+
+                {% csrf_token %}
+
+            </form>
+
+
+            <!-- BUTTON -->
+
+            <button
+                id="studyButton"
+                class="study-button">
+
+                ✨ Ask AI
+
+            </button>
+
+
+        </div>
+
+
+        <!-- =====================================
+             OUTPUT PANEL
+        ====================================== -->
+
+        <div class="panel">
+
+            <h2>
+                AI Study Response
+            </h2>
+
+
+            <div
+                id="studyOutput"
+                class="study-output">
+
+                <span class="output-placeholder">
+
+                    Your AI-generated study material
+                    will appear here...
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================================
+     JAVASCRIPT
+========================================= -->
+
+<script>
+
+
+const studyButton =
+    document.getElementById(
+        "studyButton"
+    );
+
+
+const subject =
+    document.getElementById(
+        "subject"
+    );
+
+
+const studyTask =
+    document.getElementById(
+        "studyTask"
+    );
+
+
+const studyInput =
+    document.getElementById(
+        "studyInput"
+    );
+
+
+const studyOutput =
+    document.getElementById(
+        "studyOutput"
+    );
+
+
+const csrfToken =
+    document.querySelector(
+        "[name=csrfmiddlewaretoken]"
+    ).value;
+
+
+
+studyButton.addEventListener(
+    "click",
+    async function () {
+
+
+        const question =
+            studyInput.value.trim();
+
+
+        const selectedSubject =
+            subject.value;
+
+
+        const selectedTask =
+            studyTask.value;
+
+
+        /* =========================
+           EMPTY INPUT
+        ========================= */
+
+        if (!question) {
+
+            studyOutput.textContent =
+                "Please enter a topic or question.";
+
+            return;
+        }
+
+
+        /* =========================
+           BUTTON STATE
+        ========================= */
+
+        studyButton.disabled = true;
+
+        studyButton.textContent =
+            "⏳ Preparing...";
+
+
+        studyOutput.textContent = "";
+
+
+        try {
+
+
+            /* =========================
+               SEND REQUEST
+            ========================= */
+
+            const response =
+                await fetch(
+                    "/study/",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/x-www-form-urlencoded",
+
+                            "X-CSRFToken":
+                                csrfToken
+
+                        },
+
+                        body:
+                            new URLSearchParams({
+
+                                subject:
+                                    selectedSubject,
+
+                                task:
+                                    selectedTask,
+
+                                question:
+                                    question
+
+                            })
+
+                    }
+                );
+
+
+            /* =========================
+               ERROR CHECK
+            ========================= */
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Server error: " +
+                    response.status
+                );
+            }
+
+
+            /* =========================
+               READ STREAM
+            ========================= */
+
+            const reader =
+                response.body.getReader();
+
+
+            const decoder =
+                new TextDecoder();
+
+
+            while (true) {
+
+
+                const {
+                    value,
+                    done
+                } =
+                    await reader.read();
+
+
+                if (done) {
+
+                    break;
+                }
+
+
+                const chunk =
+                    decoder.decode(
+                        value,
+                        {
+                            stream: true
+                        }
+                    );
+
+
+                studyOutput.textContent +=
+                    chunk;
+
+
+                studyOutput.scrollTop =
+                    studyOutput.scrollHeight;
+            }
+
+
+        }
+
+
+        catch (error) {
+
+            console.error(error);
+
+
+            studyOutput.textContent =
+                "Something went wrong. Please try again.";
+        }
+
+
+        finally {
+
+            studyButton.disabled = false;
+
+            studyButton.textContent =
+                "✨ Ask AI";
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

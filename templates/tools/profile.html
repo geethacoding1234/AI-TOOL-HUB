@@ -1,0 +1,662 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile | AI Tool Hub</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/style.css' %}">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0f172a,
+                    #1e1b4b,
+                    #312e81
+                );
+
+            color: white;
+
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .profile-header {
+
+            width: 100%;
+
+            padding: 20px 50px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            background:
+                rgba(255,255,255,0.08);
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.15);
+
+            backdrop-filter:
+                blur(12px);
+
+        }
+
+
+        .profile-logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            font-size: 21px;
+
+            font-weight: 700;
+
+        }
+
+
+        .profile-logo-icon {
+
+            width: 40px;
+
+            height: 40px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #8b5cf6
+                );
+
+            font-size: 20px;
+
+        }
+
+
+        .header-buttons {
+
+            display: flex;
+
+            gap: 10px;
+
+        }
+
+
+        .header-btn {
+
+            padding: 9px 17px;
+
+            border-radius: 25px;
+
+            text-decoration: none;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.25);
+
+            background:
+                rgba(255,255,255,0.08);
+
+            transition: 0.3s;
+
+        }
+
+
+        .header-btn:hover {
+
+            background: white;
+
+            color: #312e81;
+
+        }
+
+
+        .logout-btn {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ef4444,
+                    #dc2626
+                );
+
+            border: none;
+
+        }
+
+
+        .logout-btn:hover {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #dc2626,
+                    #b91c1c
+                );
+
+            color: white;
+
+        }
+
+
+        /* =========================================
+           PROFILE CONTAINER
+        ========================================= */
+
+        .profile-container {
+
+            min-height:
+                calc(100vh - 81px);
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 40px 20px;
+
+        }
+
+
+        /* =========================================
+           PROFILE CARD
+        ========================================= */
+
+        .profile-card {
+
+            width: 100%;
+
+            max-width: 650px;
+
+            padding: 45px;
+
+            border-radius: 28px;
+
+            background:
+                rgba(255,255,255,0.12);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.20);
+
+            backdrop-filter:
+                blur(18px);
+
+            -webkit-backdrop-filter:
+                blur(18px);
+
+            box-shadow:
+                0 30px 80px
+                rgba(0,0,0,0.35);
+
+        }
+
+
+        /* =========================================
+           PROFILE ICON
+        ========================================= */
+
+        .profile-avatar {
+
+            width: 100px;
+
+            height: 100px;
+
+            margin: 0 auto 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #8b5cf6
+                );
+
+            font-size: 42px;
+
+            box-shadow:
+                0 15px 35px
+                rgba(99,102,241,0.35);
+
+        }
+
+
+        .profile-title {
+
+            text-align: center;
+
+            margin: 0;
+
+            font-size: 30px;
+
+        }
+
+
+        .profile-subtitle {
+
+            text-align: center;
+
+            color:
+                rgba(255,255,255,0.65);
+
+            margin-top: 8px;
+
+            margin-bottom: 35px;
+
+        }
+
+
+        /* =========================================
+           USER INFORMATION
+        ========================================= */
+
+        .profile-info {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 18px;
+
+        }
+
+
+        .info-box {
+
+            padding: 18px;
+
+            border-radius: 15px;
+
+            background:
+                rgba(255,255,255,0.08);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.12);
+
+        }
+
+
+        .info-label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 12px;
+
+            color:
+                rgba(255,255,255,0.55);
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.7px;
+
+        }
+
+
+        .info-value {
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            color: white;
+
+            word-break: break-word;
+
+        }
+
+
+        /* =========================================
+           ACTION BUTTONS
+        ========================================= */
+
+        .profile-actions {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 15px;
+
+            margin-top: 35px;
+
+        }
+
+
+        .action-btn {
+
+            padding: 12px 25px;
+
+            border-radius: 25px;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #7c3aed
+                );
+
+            box-shadow:
+                0 10px 25px
+                rgba(99,102,241,0.25);
+
+            transition: 0.3s;
+
+        }
+
+
+        .action-btn:hover {
+
+            transform:
+                translateY(-2px);
+
+            color: white;
+
+        }
+
+
+        .action-logout {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ef4444,
+                    #dc2626
+                );
+
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 600px) {
+
+            .profile-header {
+
+                padding: 15px 18px;
+
+            }
+
+            .profile-logo {
+
+                font-size: 17px;
+
+            }
+
+            .profile-card {
+
+                padding: 30px 20px;
+
+            }
+
+            .profile-info {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .header-btn {
+
+                padding: 8px 12px;
+
+                font-size: 12px;
+
+            }
+
+            .profile-actions {
+
+                flex-direction: column;
+
+            }
+
+            .action-btn {
+
+                text-align: center;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header class="profile-header">
+
+
+    <div class="profile-logo">
+
+        <div class="profile-logo-icon">
+            🤖
+        </div>
+
+        AI Tool Hub
+
+    </div>
+
+
+    <div class="header-buttons">
+
+        <a
+            href="{% url 'home' %}"
+            class="header-btn"
+        >
+            Home
+        </a>
+
+
+        <a
+            href="{% url 'logout' %}"
+            class="header-btn logout-btn"
+        >
+            Logout
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================
+     PROFILE
+========================================= -->
+
+<main class="profile-container">
+
+
+    <div class="profile-card">
+
+
+        <div class="profile-avatar">
+            👤
+        </div>
+
+
+        <h1 class="profile-title">
+
+            My Profile
+
+        </h1>
+
+
+        <p class="profile-subtitle">
+
+            Your AI Tool Hub account information
+
+        </p>
+
+
+        <!-- =====================================
+             USER INFORMATION
+        ====================================== -->
+
+        <div class="profile-info">
+
+
+            <div class="info-box">
+
+                <span class="info-label">
+                    Full Name
+                </span>
+
+                <div class="info-value">
+                    {{ current_user.name }}
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span class="info-label">
+                    Username
+                </span>
+
+                <div class="info-value">
+                    {{ current_user.username }}
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span class="info-label">
+                    Email
+                </span>
+
+                <div class="info-value">
+                    {{ current_user.email }}
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span class="info-label">
+                    Mobile
+                </span>
+
+                <div class="info-value">
+                    {{ current_user.mobile }}
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =====================================
+             ACTIONS
+        ====================================== -->
+
+        <div class="profile-actions">
+
+
+            <a
+                href="{% url 'home' %}"
+                class="action-btn"
+            >
+                ← Back to AI Tools
+            </a>
+
+
+            <a
+                href="{% url 'logout' %}"
+                class="action-btn action-logout"
+            >
+                Logout
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+</main>
+
+
+</body>
+
+</html>

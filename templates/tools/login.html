@@ -1,0 +1,1104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Tool Hub | Login</title>
+
+    <style>
+
+        /* =========================
+           RESET
+        ========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+
+        /* =========================
+           BODY
+        ========================= */
+
+        body {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 30px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(15, 23, 42, 0.95),
+                    rgba(49, 46, 129, 0.92)
+                ),
+                url("{% static 'images/login-bg.jpg' %}");
+
+            background-size: cover;
+
+            background-position: center;
+
+            background-repeat: no-repeat;
+
+            background-attachment: fixed;
+
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .main-container {
+
+            width: 1100px;
+
+            max-width: 100%;
+
+            min-height: 650px;
+
+            display: grid;
+
+            grid-template-columns: 1.25fr 0.75fr;
+
+            background: rgba(255, 255, 255, 0.97);
+
+            border-radius: 28px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.40);
+
+            animation: appear 0.7s ease;
+
+        }
+
+
+        @keyframes appear {
+
+            from {
+
+                opacity: 0;
+
+                transform: translateY(25px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform: translateY(0);
+
+            }
+
+        }
+
+
+        /* =========================
+           LEFT ABOUT SECTION
+        ========================= */
+
+        .about-section {
+
+            padding: 60px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #312e81,
+                    #4f46e5,
+                    #6366f1
+                );
+
+            position: relative;
+
+            overflow: hidden;
+
+        }
+
+
+        /* Decorative circles */
+
+        .about-section::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 300px;
+
+            height: 300px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            top: -120px;
+
+            right: -100px;
+
+        }
+
+
+        .about-section::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 250px;
+
+            height: 250px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.07);
+
+            bottom: -120px;
+
+            left: -80px;
+
+        }
+
+
+        .about-content {
+
+            position: relative;
+
+            z-index: 2;
+
+        }
+
+
+        /* =========================
+           BRAND
+        ========================= */
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .brand-icon {
+
+            width: 62px;
+
+            height: 62px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 18px;
+
+            background: rgba(255, 255, 255, 0.15);
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+
+            font-size: 30px;
+
+        }
+
+
+        .brand h1 {
+
+            font-size: 30px;
+
+            font-weight: 700;
+
+            letter-spacing: -0.5px;
+
+        }
+
+
+        .brand p {
+
+            margin-top: 4px;
+
+            color: rgba(255, 255, 255, 0.75);
+
+            font-size: 13px;
+
+        }
+
+
+        /* =========================
+           ABOUT HEADING
+        ========================= */
+
+        .about-section h2 {
+
+            font-size: 38px;
+
+            line-height: 1.15;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .about-section h2 span {
+
+            color: #c4b5fd;
+
+        }
+
+
+        .description {
+
+            color: rgba(255, 255, 255, 0.82);
+
+            font-size: 15px;
+
+            line-height: 1.7;
+
+            max-width: 560px;
+
+            margin-bottom: 28px;
+
+        }
+
+
+        /* =========================
+           ABOUT CARDS
+        ========================= */
+
+        .info-grid {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 15px;
+
+            margin-bottom: 28px;
+
+        }
+
+
+        .info-card {
+
+            padding: 18px;
+
+            border-radius: 15px;
+
+            background: rgba(255, 255, 255, 0.10);
+
+            border: 1px solid rgba(255, 255, 255, 0.12);
+
+            backdrop-filter: blur(8px);
+
+        }
+
+
+        .info-card h3 {
+
+            font-size: 15px;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .info-card p {
+
+            color: rgba(255, 255, 255, 0.72);
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
+        }
+
+
+        /* =========================
+           BENEFITS
+        ========================= */
+
+        .benefits {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 10px 20px;
+
+        }
+
+
+        .benefit {
+
+            font-size: 13px;
+
+            color: rgba(255, 255, 255, 0.88);
+
+        }
+
+
+        /* =========================
+           RIGHT LOGIN SECTION
+        ========================= */
+
+        .login-section {
+
+            padding: 55px 45px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #ffffff;
+
+        }
+
+
+        .login-box {
+
+            width: 100%;
+
+            max-width: 360px;
+
+        }
+
+
+        /* =========================
+           LOGIN HEADER
+        ========================= */
+
+        .login-header {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .login-header-icon {
+
+            width: 65px;
+
+            height: 65px;
+
+            margin: 0 auto 15px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 18px;
+
+            font-size: 29px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #7c3aed
+                );
+
+            box-shadow:
+                0 12px 30px rgba(99, 102, 241, 0.30);
+
+        }
+
+
+        .login-header h2 {
+
+            font-size: 27px;
+
+            color: #111827;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .login-header p {
+
+            color: #6b7280;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =========================
+           DJANGO MESSAGES
+        ========================= */
+
+        .message {
+
+            padding: 12px 14px;
+
+            margin-bottom: 18px;
+
+            border-radius: 10px;
+
+            background: #fef2f2;
+
+            color: #b91c1c;
+
+            border: 1px solid #fecaca;
+
+            font-size: 13px;
+
+            text-align: center;
+
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-group {
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #374151;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+        }
+
+
+        .input-container {
+
+            position: relative;
+
+        }
+
+
+        .input-icon {
+
+            position: absolute;
+
+            left: 14px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            font-size: 16px;
+
+            color: #6b7280;
+
+            pointer-events: none;
+
+        }
+
+
+        input {
+
+            width: 100%;
+
+            height: 50px;
+
+            padding: 0 15px 0 43px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 11px;
+
+            background: #f9fafb;
+
+            color: #111827;
+
+            font-size: 14px;
+
+            transition: 0.25s ease;
+
+        }
+
+
+        input:hover {
+
+            border-color: #a5b4fc;
+
+        }
+
+
+        input:focus {
+
+            outline: none;
+
+            background: white;
+
+            border-color: #6366f1;
+
+            box-shadow:
+                0 0 0 4px rgba(99, 102, 241, 0.10);
+
+        }
+
+
+        /* =========================
+           LOGIN BUTTON
+        ========================= */
+
+        button {
+
+            width: 100%;
+
+            height: 51px;
+
+            margin-top: 7px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #7c3aed
+                );
+
+            box-shadow:
+                0 10px 25px rgba(99, 102, 241, 0.25);
+
+            transition: 0.25s ease;
+
+        }
+
+
+        button:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 14px 30px rgba(99, 102, 241, 0.35);
+
+        }
+
+
+        button:active {
+
+            transform: translateY(0);
+
+        }
+
+
+        /* =========================
+           DIVIDER
+        ========================= */
+
+        .divider {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin: 24px 0 20px;
+
+            color: #9ca3af;
+
+            font-size: 11px;
+
+        }
+
+
+        .divider::before,
+        .divider::after {
+
+            content: "";
+
+            height: 1px;
+
+            flex: 1;
+
+            background: #e5e7eb;
+
+        }
+
+
+        /* =========================
+           SIGNUP
+        ========================= */
+
+        .signup {
+
+            text-align: center;
+
+            color: #6b7280;
+
+            font-size: 13px;
+
+        }
+
+
+        .signup a {
+
+            color: #6366f1;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            margin-left: 4px;
+
+        }
+
+
+        .signup a:hover {
+
+            color: #7c3aed;
+
+            text-decoration: underline;
+
+        }
+
+
+        /* =========================
+           SECURITY
+        ========================= */
+
+        .security {
+
+            text-align: center;
+
+            margin-top: 22px;
+
+            color: #9ca3af;
+
+            font-size: 10px;
+
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 850px) {
+
+            body {
+
+                padding: 15px;
+
+            }
+
+
+            .main-container {
+
+                grid-template-columns: 1fr;
+
+                min-height: auto;
+
+            }
+
+
+            .about-section {
+
+                padding: 40px 30px;
+
+            }
+
+
+            .about-section h2 {
+
+                font-size: 30px;
+
+            }
+
+
+            .login-section {
+
+                padding: 40px 30px;
+
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .info-grid,
+            .benefits {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .about-section {
+
+                padding: 35px 25px;
+
+            }
+
+
+            .login-section {
+
+                padding: 35px 25px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         MAIN CONTAINER
+    ========================= -->
+
+    <div class="main-container">
+
+
+        <!-- =========================
+             LEFT SIDE - ABOUT
+        ========================= -->
+
+        <section class="about-section">
+
+            <div class="about-content">
+
+
+                <!-- BRAND -->
+
+                <div class="brand">
+
+                    <div class="brand-icon">
+                        🤖
+                    </div>
+
+                    <div>
+
+                        <h1>AI TOOL HUB</h1>
+
+                        <p>One Platform. Multiple AI Possibilities.</p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MAIN INTRODUCTION -->
+
+                <h2>
+                    Explore the power of
+                    <span>Artificial Intelligence.</span>
+                </h2>
+
+
+                <p class="description">
+
+                    AI Tool Hub is a centralized web platform designed
+                    to bring multiple AI-powered tools together in one
+                    simple and accessible application.
+
+                </p>
+
+
+                <!-- INFORMATION CARDS -->
+
+                <div class="info-grid">
+
+
+                    <div class="info-card">
+
+                        <h3>🎯 Our Purpose</h3>
+
+                        <p>
+                            To provide users with convenient access to
+                            different AI tools from a single platform.
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-card">
+
+                        <h3>💡 Why AI Tool Hub?</h3>
+
+                        <p>
+                            It reduces the need to use multiple separate
+                            platforms for different AI requirements.
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-card">
+
+                        <h3>⚙️ How It Is Made</h3>
+
+                        <p>
+                            Developed using Python, Django, HTML, CSS
+                            and SQLite with AI services.
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-card">
+
+                        <h3>🚀 Future Ready</h3>
+
+                        <p>
+                            New AI tools can be integrated into the
+                            platform as the project grows.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- BENEFITS -->
+
+                <div class="benefits">
+
+                    <div class="benefit">
+                        ✓ Multiple AI tools
+                    </div>
+
+                    <div class="benefit">
+                        ✓ Centralized platform
+                    </div>
+
+                    <div class="benefit">
+                        ✓ Simple user interface
+                    </div>
+
+                    <div class="benefit">
+                        ✓ Expandable architecture
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             RIGHT SIDE - LOGIN
+        ========================= -->
+
+        <section class="login-section">
+
+            <div class="login-box">
+
+
+                <!-- LOGIN HEADER -->
+
+                <div class="login-header">
+
+                    <div class="login-header-icon">
+                        🔐
+                    </div>
+
+                    <h2>Welcome Back</h2>
+
+                    <p>
+                        Sign in to continue to AI Tool Hub
+                    </p>
+
+                </div>
+
+
+                <!-- DJANGO MESSAGES -->
+
+                {% if messages %}
+
+                    {% for message in messages %}
+
+                        <div class="message">
+
+                            {{ message }}
+
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+
+                <!-- LOGIN FORM -->
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+
+                    <!-- USERNAME -->
+
+                    <div class="form-group">
+
+                        <label for="username">
+                            Username
+                        </label>
+
+                        <div class="input-container">
+
+                            <span class="input-icon">
+                                👤
+                            </span>
+
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                placeholder="Enter your username"
+                                autocomplete="username"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <div class="input-container">
+
+                            <span class="input-icon">
+                                🔒
+                            </span>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- LOGIN BUTTON -->
+
+                    <button type="submit">
+
+                        Login to AI Tool Hub →
+
+                    </button>
+
+
+                </form>
+
+
+                <!-- DIVIDER -->
+
+                <div class="divider">
+                    OR
+                </div>
+
+
+                <!-- SIGNUP -->
+
+                <div class="signup">
+
+                    Don't have an account?
+
+                    <a href="{% url 'signup' %}">
+                        Create Account
+                    </a>
+
+                </div>
+
+
+                <!-- SECURITY -->
+
+                <div class="security">
+
+                    🔒 Your account information is securely protected
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+
+</body>
+
+</html>

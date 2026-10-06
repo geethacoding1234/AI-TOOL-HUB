@@ -1,0 +1,732 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Translator | AI Tool Hub</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            color: white;
+
+            background:
+
+                linear-gradient(
+                    rgba(3, 10, 22, 0.55),
+                    rgba(3, 10, 22, 0.70)
+                ),
+
+                url("{% static 'images/ai-background.jpg' %}");
+
+            background-size: cover;
+
+            background-position: center;
+
+            background-attachment: fixed;
+
+            padding: 30px;
+
+        }
+
+
+        /* =========================
+           BACK BUTTON
+        ========================= */
+
+        .back-button {
+
+            position: fixed;
+
+            top: 25px;
+
+            right: 30px;
+
+            padding: 10px 18px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            color: white;
+
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.18);
+
+            backdrop-filter: blur(12px);
+
+            -webkit-backdrop-filter: blur(12px);
+
+            font-size: 14px;
+
+            transition: 0.2s;
+
+            z-index: 100;
+
+        }
+
+
+        .back-button:hover {
+
+            background:
+                rgba(255, 255, 255, 0.16);
+
+            transform: translateY(-2px);
+
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .container {
+
+            width: 700px;
+
+            max-width: 95%;
+
+            margin: 60px auto 40px;
+
+            padding: 30px;
+
+            background:
+                rgba(255, 255, 255, 0.045);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.15);
+
+            border-radius: 24px;
+
+            backdrop-filter: blur(20px);
+
+            -webkit-backdrop-filter: blur(20px);
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.30);
+
+        }
+
+
+        /* =========================
+           TITLE
+        ========================= */
+
+        h1 {
+
+            text-align: center;
+
+            font-size: 30px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .subtitle {
+
+            text-align: center;
+
+            color:
+                rgba(255, 255, 255, 0.68);
+
+            font-size: 14px;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        /* =========================
+           LANGUAGE SELECTION
+        ========================= */
+
+        .language-container {
+
+            display: flex;
+
+            gap: 20px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .language-box {
+
+            width: 50%;
+
+        }
+
+
+        label {
+
+            display: block;
+
+            font-weight: 600;
+
+            margin-bottom: 8px;
+
+            font-size: 14px;
+
+        }
+
+
+        select {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border-radius: 10px;
+
+            border:
+                1px solid rgba(255, 255, 255, 0.15);
+
+            background:
+                rgba(255, 255, 255, 0.06);
+
+            color: white;
+
+            font-size: 15px;
+
+            outline: none;
+
+            cursor: pointer;
+
+        }
+
+
+        select:focus {
+
+            border-color:
+                rgba(255, 255, 255, 0.30);
+
+        }
+
+
+        select option {
+
+            background: #111827;
+
+            color: white;
+
+        }
+
+
+        /* =========================
+           TEXTAREA
+        ========================= */
+
+        textarea {
+
+            width: 100%;
+
+            height: 150px;
+
+            padding: 14px;
+
+            border-radius: 12px;
+
+            border:
+                1px solid rgba(255, 255, 255, 0.14);
+
+            background:
+                rgba(255, 255, 255, 0.045);
+
+            color: white;
+
+            resize: vertical;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            font-size: 15px;
+
+            outline: none;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        textarea::placeholder {
+
+            color:
+                rgba(255, 255, 255, 0.48);
+
+        }
+
+
+        textarea:focus {
+
+            border-color:
+                rgba(255, 255, 255, 0.28);
+
+        }
+
+
+        /* =========================
+           TRANSLATE BUTTON
+        ========================= */
+
+        button {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border-radius: 12px;
+
+            border:
+                1px solid rgba(255, 255, 255, 0.16);
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            color: white;
+
+            font-size: 16px;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+        }
+
+
+        button:hover {
+
+            background:
+                rgba(255, 255, 255, 0.18);
+
+            transform: translateY(-1px);
+
+        }
+
+
+        /* =========================
+           RESULT
+        ========================= */
+
+        .result {
+
+            margin-top: 25px;
+
+            padding-top: 25px;
+
+            border-top:
+                1px solid rgba(255, 255, 255, 0.10);
+
+        }
+
+
+        .result textarea {
+
+            background:
+                rgba(255, 255, 255, 0.06);
+
+            margin-bottom: 0;
+
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer-text {
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color:
+                rgba(255, 255, 255, 0.50);
+
+            font-size: 12px;
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            body {
+
+                padding: 15px;
+
+            }
+
+
+            .back-button {
+
+                top: 15px;
+
+                right: 15px;
+
+                font-size: 13px;
+
+                padding: 8px 12px;
+
+            }
+
+
+            .container {
+
+                margin-top: 70px;
+
+                padding: 22px;
+
+            }
+
+
+            .language-container {
+
+                flex-direction: column;
+
+                gap: 15px;
+
+            }
+
+
+            .language-box {
+
+                width: 100%;
+
+            }
+
+
+            h1 {
+
+                font-size: 26px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     BACK BUTTON
+========================= -->
+
+<a href="/"
+   class="back-button">
+
+    ← Back to AI Tool Hub
+
+</a>
+
+
+<!-- =========================
+     MAIN CONTAINER
+========================= -->
+
+<div class="container">
+
+
+    <!-- TITLE -->
+
+    <h1>
+        🌐 AI Translator
+    </h1>
+
+
+    <p class="subtitle">
+        Translate text between multiple languages using AI
+    </p>
+
+
+    <!-- =========================
+         TRANSLATOR FORM
+    ========================= -->
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+
+        <!-- LANGUAGE SELECTION -->
+
+        <div class="language-container">
+
+
+            <!-- FROM LANGUAGE -->
+
+            <div class="language-box">
+
+                <label for="from_language">
+                    From Language
+                </label>
+
+
+                <select
+                    name="from_language"
+                    id="from_language">
+
+
+                    <option
+                        value="English"
+                        {% if from_language == "English" or not from_language %}
+                            selected
+                        {% endif %}>
+
+                        English
+
+                    </option>
+
+
+                    <option
+                        value="Tamil"
+                        {% if from_language == "Tamil" %}
+                            selected
+                        {% endif %}>
+
+                        Tamil
+
+                    </option>
+
+
+                    <option
+                        value="Telugu"
+                        {% if from_language == "Telugu" %}
+                            selected
+                        {% endif %}>
+
+                        Telugu
+
+                    </option>
+
+
+                    <option
+                        value="Hindi"
+                        {% if from_language == "Hindi" %}
+                            selected
+                        {% endif %}>
+
+                        Hindi
+
+                    </option>
+
+
+                    <option
+                        value="Kannada"
+                        {% if from_language == "Kannada" %}
+                            selected
+                        {% endif %}>
+
+                        Kannada
+
+                    </option>
+
+
+                    <option
+                        value="Malayalam"
+                        {% if from_language == "Malayalam" %}
+                            selected
+                        {% endif %}>
+
+                        Malayalam
+
+                    </option>
+
+
+                </select>
+
+            </div>
+
+
+            <!-- TO LANGUAGE -->
+
+            <div class="language-box">
+
+                <label for="to_language">
+                    To Language
+                </label>
+
+
+                <select
+                    name="to_language"
+                    id="to_language">
+
+
+                    <option
+                        value="Tamil"
+                        {% if to_language == "Tamil" or not to_language %}
+                            selected
+                        {% endif %}>
+
+                        Tamil
+
+                    </option>
+
+
+                    <option
+                        value="English"
+                        {% if to_language == "English" %}
+                            selected
+                        {% endif %}>
+
+                        English
+
+                    </option>
+
+
+                    <option
+                        value="Telugu"
+                        {% if to_language == "Telugu" %}
+                            selected
+                        {% endif %}>
+
+                        Telugu
+
+                    </option>
+
+
+                    <option
+                        value="Hindi"
+                        {% if to_language == "Hindi" %}
+                            selected
+                        {% endif %}>
+
+                        Hindi
+
+                    </option>
+
+
+                    <option
+                        value="Kannada"
+                        {% if to_language == "Kannada" %}
+                            selected
+                        {% endif %}>
+
+                        Kannada
+
+                    </option>
+
+
+                    <option
+                        value="Malayalam"
+                        {% if to_language == "Malayalam" %}
+                            selected
+                        {% endif %}>
+
+                        Malayalam
+
+                    </option>
+
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =========================
+             INPUT TEXT
+        ========================= -->
+
+        <label for="input_text">
+            Enter Text
+        </label>
+
+
+        <textarea
+            name="input_text"
+            id="input_text"
+            placeholder="Enter text to translate..."
+            required>{{ input_text }}</textarea>
+
+
+        <!-- =========================
+             TRANSLATE BUTTON
+        ========================= -->
+
+        <button type="submit">
+
+            🌐 Translate
+
+        </button>
+
+
+    </form>
+
+
+    <!-- =========================
+         TRANSLATION RESULT
+    ========================= -->
+
+    {% if translated_text %}
+
+    <div class="result">
+
+        <label for="translated_text">
+            Translation
+        </label>
+
+
+        <textarea
+            id="translated_text"
+            readonly>{{ translated_text }}</textarea>
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- FOOTER -->
+
+    <div class="footer-text">
+
+        AI Tool Hub • Powered by Groq
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

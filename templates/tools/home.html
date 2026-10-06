@@ -1,0 +1,202 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tool Hub</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=2">
+
+    <!-- NAV STYLES (inline so they apply even if style.css is cached) -->
+    <style>
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 18px 7%;
+            background: rgba(5, 15, 30, 0.70);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header .top-right-nav {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 34px;
+            margin-left: auto;
+        }
+
+        .header .top-right-nav a.nav-button,
+        .header .top-right-nav a.nav-button:link,
+        .header .top-right-nav a.nav-button:visited {
+            color: #ffffff;
+            text-decoration: none;
+            background: none;
+            border: none;
+            box-shadow: none;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 6px 2px;
+            position: relative;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .header .top-right-nav a.nav-button::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background: #60a5fa;
+            transition: width 0.3s ease;
+        }
+
+        .header .top-right-nav a.nav-button:hover {
+            color: #dbeafe;
+            transform: translateY(-1px);
+        }
+
+        .header .top-right-nav a.nav-button:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     HEADER (TOP RIGHT BUTTONS)
+===================================================== -->
+
+<header class="header">
+    <div class="top-right-nav">
+
+        <a href="{% url 'home' %}" class="nav-button brand-button">AI Tool Hub</a>
+
+        <a href="{% url 'profile' %}" class="nav-button">Profile</a>
+
+        <a href="{% url 'logout' %}" class="nav-button logout-button">Logout</a>
+
+    </div>
+</header>
+
+
+<!-- =====================================================
+     AI TOOLS
+===================================================== -->
+
+<main class="container" id="tools">
+
+    <div class="section-title">
+        <h2>Explore AI Tools</h2>
+        <p>Choose a tool and start creating with AI</p>
+    </div>
+
+    <div class="tools-grid">
+
+        <!-- AI CHATBOT -->
+        <div class="tool-card">
+            <div class="tool-icon">🤖</div>
+            <h3>AI Chatbot</h3>
+            <p>
+                Ask questions and have intelligent
+                conversations with your AI assistant.
+            </p>
+            <a href="{% url 'chatbot' %}" class="tool-btn">Open Tool →</a>
+        </div>
+
+        <!-- AI WRITER -->
+        <div class="tool-card">
+            <div class="tool-icon">✍️</div>
+            <h3>AI Writer</h3>
+            <p>
+                Generate professional content,
+                emails, articles and social posts.
+            </p>
+            <a href="{% url 'writer' %}" class="tool-btn">Open Tool →</a>
+        </div>
+
+        <!-- AI SUMMARIZER -->
+        <div class="tool-card">
+            <div class="tool-icon">📝</div>
+            <h3>AI Summarizer</h3>
+            <p>
+                Turn long documents and text into
+                short, clear summaries.
+            </p>
+            <a href="{% url 'summarizer' %}" class="tool-btn">Open Tool →</a>
+        </div>
+
+        <!-- AI TRANSLATOR -->
+        <div class="tool-card">
+            <div class="tool-icon">🌐</div>
+            <h3>AI Translator</h3>
+            <p>
+                Translate content between multiple
+                languages quickly using AI.
+            </p>
+            <a href="{% url 'translator' %}" class="tool-btn">Open Tool →</a>
+        </div>
+
+        <!-- AI CODING ASSISTANT -->
+        <div class="tool-card">
+            <div class="tool-icon">💻</div>
+            <h3>AI Coding Assistant</h3>
+            <p>
+                Generate code, debug errors and
+                understand programming concepts.
+            </p>
+            <a href="{% url 'coding' %}" class="tool-btn">Open Tool →</a>
+        </div>
+
+        <!-- AI STUDY ASSISTANT -->
+        <div class="tool-card">
+            <div class="tool-icon">📚</div>
+            <h3>AI Study Assistant</h3>
+            <p>
+                Learn concepts, create notes and
+                prepare questions for examinations.
+            </p>
+            <a href="{% url 'study' %}" class="tool-btn">Open Tool →</a>
+        </div>
+
+        <!-- AI RESUME ANALYZER -->
+        <div class="tool-card">
+            <div class="tool-icon">📄</div>
+            <h3>AI Resume Analyzer</h3>
+            <p>
+                Analyze your resume and receive
+                AI-powered improvement suggestions.
+            </p>
+            <a href="{% url 'resume' %}" class="tool-btn">Open Tool →</a>
+        </div>
+
+        <!-- AI INTERVIEW -->
+        <div class="tool-card">
+            <div class="tool-icon">🎤</div>
+            <h3>AI Interview</h3>
+            <p>
+                Practice interview questions and
+                improve your interview preparation.
+            </p>
+            <a href="{% url 'interview' %}" class="tool-btn">Open Tool →</a>
+        </div>
+
+    </div>
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+    <p>© 2026 AI Tool Hub • Powered by Gemini & Groq</p>
+</footer>
+
+</body>
+</html>
